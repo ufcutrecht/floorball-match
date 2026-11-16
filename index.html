@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
 <style>
-[hidden]{display:none!important}
 /* Layout: one-screen arena. Scoreboard strip on top, rink canvas fills the rest, overlays for menu/rust/einde. Single dark arena look by choice. */
 :root{
   --arena:#0e131a; --stand:#161d27; --panel:#1b2430; --rule:#2b3746;
@@ -29,7 +28,7 @@
 html{box-sizing:border-box;height:100%}
 *,*::before,*::after{box-sizing:inherit}
 body{height:100%;margin:0;background:var(--arena);color:var(--ink);font-family:var(--body);overflow:hidden}
-#app{height:100%;display:flex;flex-direction:column;gap:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:max(10px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
+#app{height:100%;display:flex;flex-direction:column;gap:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
 
 /* Scoreboard */
 .board{display:flex;align-items:center;justify-content:center;gap:clamp(8px,2.5vw,24px);font-family:var(--display);line-height:1;flex-wrap:wrap}
@@ -107,17 +106,43 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 .tkeys b{font:600 11px var(--body);color:var(--ink);background:var(--stand);border:1px solid var(--rule);border-radius:999px;padding:4px 9px;justify-self:start;white-space:nowrap}
 .tkeys b.o{background:color-mix(in srgb,var(--home) 70%,transparent);border-color:var(--home);color:#1a0d04}
 .tip{font-size:12px;color:var(--muted);margin:0}
+.tip.ios{color:var(--ink);background:var(--stand);border:1px solid var(--rule);border-radius:8px;padding:8px 10px}
+/* iPhone: no rubber-band scrolling, no zoom on double tap, no text loupe on a long press */
+html,body{overscroll-behavior:none}
+body.touchmode{position:fixed;inset:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-text-size-adjust:100%}
+button{touch-action:manipulation}
+.overlay{z-index:10;touch-action:pan-y;overscroll-behavior:contain}
+/* Liggend op een telefoon: scorebord zweeft over het veld, zodat het veld de volle hoogte krijgt */
+@media (orientation:landscape) and (max-height:520px){
+  body.touchmode #app{position:relative;gap:0;padding:max(4px,env(safe-area-inset-top,0px)) max(6px,env(safe-area-inset-right,0px)) max(4px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  body.touchmode .board{position:absolute;z-index:5;top:max(8px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);flex-wrap:nowrap;gap:10px;padding:4px 6px 4px 10px;border-radius:8px;background:rgba(14,19,26,.72);white-space:nowrap}
+  body.touchmode .team{font-size:19px;gap:6px}
+  body.touchmode .swatch{width:8px;height:16px}
+  body.touchmode .score{font-size:26px;padding:2px 9px 0;gap:6px}
+  body.touchmode .clock{flex-direction:row;align-items:baseline;gap:6px;font-size:20px}
+  body.touchmode .clock small{font-size:9px}
+  body.touchmode .iconbtn{padding:6px 9px;font-size:12px}
+  body.touchmode .stage{border-radius:8px}
+  body.touchmode .btns{bottom:10px;gap:8px}
+  body.touchmode .stickzone{height:80%}
+  body.touchmode .card{padding:14px 16px;gap:10px}
+  body.touchmode .card h1{font-size:40px}
+  body.touchmode .logo{width:44px;height:44px}
+  body.touchmode #menu .card>p:not(.tip){display:none}
+  body.touchmode .card h2{font-size:34px}
+  body.touchmode .primary{font-size:26px;padding:8px 0 4px}
+}
 </style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}body{font-size:14px}</style>
 </head>
 <body>
-
 <div id="app">
   <header class="board">
     <div class="team home"><span class="swatch"></span><span id="nHome">Domstad</span></div>
     <div class="score"><span id="sHome">0</span><span class="sep">:</span><span id="sAway">0</span></div>
     <div class="team away"><span class="swatch"></span><span id="nAway">Havenstad</span></div>
     <div class="clock"><span id="time">3:00</span><small id="period">1e helft</small></div>
-    <button class="iconbtn" id="camBtn" type="button">Camera: tribune</button>
+    <button class="iconbtn" id="camBtn" type="button">Camera: zijkant</button>
     <button class="iconbtn" id="pauseBtn" type="button" aria-label="Pauze">Pauze</button>
   </header>
 
@@ -154,6 +179,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
           </div></div>
         <button class="primary" id="startBtn" type="button">Aftrap</button>
         <button class="secondary" id="fsBtn" type="button" hidden>Volledig scherm</button>
+        <p class="tip ios" id="iosTip" hidden>Tip voor iPhone: tik in Safari op <b>Deel</b> en dan <b>Zet op beginscherm</b>. Vanaf je beginscherm speel je schermvullend, zonder adresbalk.</p>
         <span class="label">Besturing</span>
         <div class="keys" id="keyList">
           <kbd>WASD / pijlen</kbd><span>Lopen</span>
@@ -162,7 +188,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
           <kbd>Spatie zonder bal</kbd><span>Tackelen</span>
           <kbd>L / Q</kbd><span>Wisselen naar speler dichtst bij de bal</span>
           <kbd>Shift</kbd><span>Sprinten</span>
-          <kbd>C</kbd><span>Camerastandpunt wisselen</span>
+          <kbd>C</kbd><span>Camera wisselen: zijkant, hoog, achter of overzicht</span>
           <kbd>P</kbd><span>Pauze</span>
         </div>
         <div class="tkeys" id="touchList" hidden>
@@ -173,7 +199,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
           <b>Wissel</b><span>Naar de speler het dichtst bij de bal</span>
           <b>Sprint</b><span>Vasthouden om harder te lopen</span>
         </div>
-        <p class="tip" id="touchTip" hidden>Staand zie je het hele veld van bovenaf. Liggend zie je de spelers groter.</p>
+        <p class="tip" id="touchTip" hidden>Houd je telefoon liggend: dan zie je het veld van de zijkant, net als bij FIFA. Met de cameraknop bovenin kies je een ander standpunt.</p>
       </div>
     </div>
 
@@ -693,7 +719,12 @@ document.getElementById('startBtn').onclick=()=>{ initAudio(); startMatch(); };
 
 // ---------- Sound ----------
 let ac=null;
-function initAudio(){ try{ if(!ac) ac=new (window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended') ac.resume(); }catch(e){} }
+function initAudio(){ try{
+  if(!ac){ ac=new (window.AudioContext||window.webkitAudioContext)();
+    // iOS only unlocks Web Audio after a sound starts inside a touch, so play one silent sample.
+    const b=ac.createBuffer(1,1,22050), s=ac.createBufferSource(); s.buffer=b; s.connect(ac.destination); s.start(0); }
+  if(ac.state!=='running') ac.resume();
+}catch(e){} }
 function sfx(f,d,type,vol){
   if(!ac) return;
   try{ const o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime;
@@ -760,15 +791,16 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color(C.arena);
 scene.fog=new THREE.Fog(C.arena,55,110);
 const camera=new THREE.PerspectiveCamera(38,1,0.1,300);
-let camMode=0, camManual=false; const CAMS=['tribune','hoog','achter','overzicht'];
+let camMode=0, camManual=false; const CAMS=['zijkant','hoog','achter','overzicht'];
 const camPos=V(20,14,32), camLook=V(20,0,10);
 function setCam(m){ camMode=m; document.getElementById('camBtn').textContent='Camera: '+CAMS[camMode]; }
 function toggleCam(){ camManual=true; setCam((camMode+1)%CAMS.length); }
 let wasPortrait=null;
 function autoCam(aspect){
-  const portrait=aspect<0.9;
+  // Hold the phone upright = portrait, even when the controls band makes the rink itself almost square.
+  const portrait=aspect<0.9||(touchMode&&innerHeight>innerWidth);
+  // The side camera stays the default in both orientations; switching cameras is only done by the player.
   if(portrait===wasPortrait) return; wasPortrait=portrait;
-  if(!camManual) setCam(portrait?3:0);
 }
 document.getElementById('camBtn').onclick=toggleCam;
 
@@ -825,7 +857,7 @@ const PX=40, fc=document.createElement('canvas'); fc.width=L*PX; fc.height=W*PX;
     dot(gx,1.5); dot(gx,18.5);
   }
   dot(L/2,1.5); dot(L/2,18.5);
-  g.save(); g.translate(m(L/2),m(10)); g.globalAlpha=0.16; g.fillStyle=C['floor-line'];
+  g.save(); g.translate(m(L/2),m(10)); g.scale(1,-1); g.globalAlpha=0.16; g.fillStyle=C['floor-line'];
   g.font=`700 ${m(1.3)}px Teko, "Arial Narrow", sans-serif`; g.textAlign='center'; g.textBaseline='middle';
   g.fillText('MATCH',0,m(0.1)); g.restore();
 })();
@@ -1047,16 +1079,24 @@ function render3D(dt){
   const look=V(), pos=V();
   const bx=ball.x+ball.vx*0.25, by=ball.y;
   // With touch controls in landscape, let the camera slide past the rink ends so the goal is never hidden under the buttons.
-  const tm=touchMode&&aspect>=0.9;
+  const tm=touchMode&&!wasPortrait;
   const sideX=(half,margin)=>{
     const mpp=2*half/Math.max(1,vw), eR=tm?170*mpp:0, eL=tm?40*mpp:0;
     return half*2>L+margin*2+eL+eR ? L/2+(eR-eL)/2 : clamp(bx,half-margin-eL,L+margin+eR-half);
   };
+  let fov=38;
   if(camMode===0){
-    const dist=22/narrow;
-    const half=dist*Math.tan(THREE.MathUtils.degToRad(19))*aspect;
-    const cx=sideX(half,3);
-    look.set(cx,0,9.6+(by-10)*0.25); pos.set(cx,dist*0.58,10+dist*0.82);
+    // Side camera like a TV broadcast: fixed height, fixed distance, fixed horizontal view.
+    // Only the screen height decides how much is visible above and below, so the picture never zooms.
+    const portrait=wasPortrait;
+    const viewW=portrait?15:24, dist=portrait?25:23, el=THREE.MathUtils.degToRad(portrait?33:27);
+    const hHalf=Math.atan(viewW/2/dist);
+    fov=clamp(THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(hHalf)/Math.max(0.3,aspect))),20,100);
+    const lead=ball.owner?attackDir(ball.owner.team)*1.5:clamp(ball.vx*0.12,-2,2);
+    const edge=viewW/2-3, extraR=tm?3:0;
+    const cx=clamp(ball.x+lead,edge,L-edge+extraR);
+    const cz=10+(by-10)*0.3+(touchMode?2:0.8);
+    look.set(cx,0,cz); pos.set(cx,dist*Math.sin(el),cz+dist*Math.cos(el));
   } else if(camMode===1){
     const dist=26/narrow;
     const half=dist*Math.tan(THREE.MathUtils.degToRad(19))*aspect;
@@ -1077,6 +1117,7 @@ function render3D(dt){
   }
   const k=Math.min(1,dt*3.5);
   camPos.lerp(pos,k); camLook.lerp(look,k);
+  if(Math.abs(camera.fov-fov)>0.01){ camera.fov+= (fov-camera.fov)*Math.min(1,dt*6); if(Math.abs(camera.fov-fov)<0.05) camera.fov=fov; camera.updateProjectionMatrix(); }
   camera.position.copy(camPos); camera.lookAt(camLook);
   { const fx=camLook.x-camPos.x, fy=camLook.z-camPos.z, fl=hyp(fx,fy); if(fl>0.01){ camFwd.x=fx/fl; camFwd.y=fy/fl; } }
 
@@ -1120,6 +1161,13 @@ function touchLabels(){
   tShootEl.classList.toggle('off',!has);
 }
 if(coarse) enableTouch();
+// iPhone/iPad: block pinch zoom, double-tap zoom, page bounce and the text loupe while playing.
+const isIOS=/iP(hone|od|ad)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
+document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+document.addEventListener('touchmove',e=>{ if(!e.target.closest('.overlay')) e.preventDefault(); },{passive:false});
+[document.getElementById('touch'),cv].forEach(el=>el.addEventListener('touchstart',e=>{ if(e.cancelable) e.preventDefault(); },{passive:false}));
+if(isIOS&&!(navigator.standalone||matchMedia('(display-mode: standalone)').matches)) document.getElementById('iosTip').hidden=false;
 addEventListener('touchstart',()=>{ if(document.getElementById('touch').hidden) enableTouch(); },{once:true,passive:true});
 (function(){
   const zone=document.getElementById('stickZone'), base=document.getElementById('stickBase'), knob=document.getElementById('knob');
@@ -1136,7 +1184,7 @@ addEventListener('touchstart',()=>{ if(document.getElementById('touch').hidden) 
   const end=e=>{ if(e.pointerId!==id) return; id=null; joy.x=joy.y=0; knob.style.transform=''; };
   zone.addEventListener('pointerup',end); zone.addEventListener('pointercancel',end);
   const hold=(el,down,up)=>{
-    el.addEventListener('pointerdown',e=>{e.preventDefault(); try{el.setPointerCapture(e.pointerId)}catch(_){} el.classList.add('on'); down();});
+    el.addEventListener('pointerdown',e=>{e.preventDefault(); try{el.setPointerCapture(e.pointerId)}catch(_){} el.classList.add('on'); initAudio(); down();});
     const u=()=>{el.classList.remove('on'); up&&up()};
     el.addEventListener('pointerup',u); el.addEventListener('pointercancel',u);
   };
@@ -1146,6 +1194,15 @@ addEventListener('touchstart',()=>{ if(document.getElementById('touch').hidden) 
   hold(document.getElementById('tSprint'),()=>touchSprint=true,()=>touchSprint=false);
 })();
 
+// If a phone can't keep up (under ~40 fps during play), render at a lower resolution once.
+let perfN=0, perfSum=0, lowRes=false;
+function perfCheck(dt){
+  if(!renderer||!coarse||lowRes||S.state!=='play') return;
+  perfSum+=dt; if(++perfN<120) return;
+  if(perfSum/perfN>1/40){ lowRes=true; renderer.setPixelRatio(1); resize(); }
+  perfN=0; perfSum=0;
+}
+
 // ---------- Loop ----------
 let last=performance.now();
 function frame(now){
@@ -1153,13 +1210,12 @@ function frame(now){
   const dt=Math.min(0.1,Math.max(0,(now-last)/1000)); last=now;
   const n=Math.max(1,Math.ceil(dt/(1/60)));
   for(let i=0;i<n;i++) update(dt/n);
-  render3D(dt); hud(); touchLabels();
+  render3D(dt); hud(); touchLabels(); perfCheck(dt);
   requestAnimationFrame(frame);
 }
 makeTeams(); placeKickoff(0); S.state='menu';
 requestAnimationFrame(frame);
 })();
 </script>
-
 </body>
 </html>
