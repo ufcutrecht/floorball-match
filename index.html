@@ -117,6 +117,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 .tkeys b.y{border-color:var(--gk-home);color:var(--gk-home)}
 .tkeys b.o{background:color-mix(in srgb,var(--accent) 70%,transparent);border-color:var(--accent);color:#1a0d04}
 .tip{font-size:12px;color:var(--muted);margin:0}
+.labelrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.seg.mini{padding:2px;gap:2px}
+.seg.mini button{padding:4px 12px;font-size:13px}
 .teamsel{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
 .teamsel select{width:100%;min-width:0;font:600 16px var(--body);color:var(--ink);background:var(--stand);border:1px solid var(--rule);border-radius:8px;padding:9px 8px}
 .teamsel .vs{font-size:12px;color:var(--muted)}
@@ -184,7 +187,11 @@ button{touch-action:manipulation}
       <div class="card">
         <div class="brand"><svg class="logo" role="img" aria-label="Floorball Match logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><g transform="translate(120 0) scale(-1 1)"><line x1="26" y1="14" x2="84" y2="86" stroke="#e0457b" stroke-width="6.5" stroke-linecap="round"/><line x1="26" y1="14" x2="35" y2="25" stroke="#eef2f7" stroke-width="7.5" stroke-linecap="round"/><path d="M80 84 Q88 96 106 92" fill="none" stroke="#ffd23f" stroke-width="9" stroke-linecap="round"/></g><line x1="26" y1="14" x2="84" y2="86" stroke="#ff7a2e" stroke-width="6.5" stroke-linecap="round"/><line x1="26" y1="14" x2="35" y2="25" stroke="#eef2f7" stroke-width="7.5" stroke-linecap="round"/><path d="M80 84 Q88 96 106 92" fill="none" stroke="#f6f7f9" stroke-width="9" stroke-linecap="round"/><circle cx="18" cy="58" r="11" fill="#fff"/><circle cx="18" cy="58" r="11" fill="none" stroke="#c9d1db" stroke-width="1"/><circle cx="18" cy="58" r="1.9" fill="#9aa3ad"/><circle cx="23.3" cy="59.7" r="1.9" fill="#9aa3ad"/><circle cx="19.2" cy="63.5" r="1.9" fill="#9aa3ad"/><circle cx="13.9" cy="61.8" r="1.9" fill="#9aa3ad"/><circle cx="12.7" cy="56.3" r="1.9" fill="#9aa3ad"/><circle cx="16.8" cy="52.5" r="1.9" fill="#9aa3ad"/><circle cx="22.1" cy="54.2" r="1.9" fill="#9aa3ad"/><circle cx="102" cy="58" r="11" fill="#fff"/><circle cx="102" cy="58" r="11" fill="none" stroke="#c9d1db" stroke-width="1"/><circle cx="102" cy="58" r="1.9" fill="#9aa3ad"/><circle cx="107.3" cy="59.7" r="1.9" fill="#9aa3ad"/><circle cx="103.2" cy="63.5" r="1.9" fill="#9aa3ad"/><circle cx="97.9" cy="61.8" r="1.9" fill="#9aa3ad"/><circle cx="96.7" cy="56.3" r="1.9" fill="#9aa3ad"/><circle cx="100.8" cy="52.5" r="1.9" fill="#9aa3ad"/><circle cx="106.1" cy="54.2" r="1.9" fill="#9aa3ad"/></svg><h1>Floorball <span>Match</span></h1></div>
         <p id="introTxt">Vijf veldspelers en een keeper per team. De keeper speelt vanzelf; jij bestuurt steeds de speler met de bal.</p>
-        <div class="field"><span class="label">Teams uit de Eredivisie</span>
+        <div class="field"><div class="labelrow"><span class="label">Eredivisie</span>
+          <div class="seg mini" id="segGender" role="group" aria-label="Competitie">
+            <button type="button" data-g="H" aria-pressed="true">Heren</button>
+            <button type="button" data-g="D" aria-pressed="false">Dames</button>
+          </div></div>
           <div class="teamsel">
             <select id="selHome" aria-label="Jouw team"></select>
             <span class="vs">tegen</span>
@@ -284,28 +291,37 @@ const DIFFS=[
 const MATE={spd:0.97,tackle:1.5,save:0,noise:0.09,think:0.3};
 const TEAMS=[{name:'Domstad',fill:C.home,dark:C['home-dark'],gk:C['gk-home'],gkInk:'#2a1a00',numInk:'#ffffff'},
              {name:'Havenstad',fill:C.away,dark:C['away-dark'],gk:C['gk-away'],gkInk:C.ink,numInk:'#ffffff'}];
-// Clubs of the Dutch men's floorball Eredivisie, in their club colours.
-// fill = shirt, dark = shorts, alt/altDark = second kit used when both shirts look alike.
-const CLUBS=[
-  {name:'UFC Utrecht',   fill:'#ec4f9b',dark:'#1b1f26',alt:'#f4f6f8',altDark:'#ec4f9b'},  // roze
-  {name:'UFC Utrecht 2', fill:'#ec4f9b',dark:'#1b1f26',alt:'#f4f6f8',altDark:'#ec4f9b'},  // roze
-  {name:'FB Agents',     fill:'#1f2329',dark:'#1f2329',alt:'#f4f6f8',altDark:'#1f2329'},  // zwart
-  {name:'Hot Flames',    fill:'#ff7a2e',dark:'#7a2c08',alt:'#1b1f26',altDark:'#ff7a2e'},  // oranje
-  {name:'Sonics',        fill:'#d7263d',dark:'#1b1f26',alt:'#f4f6f8',altDark:'#d7263d'},  // rood / zwart
-  {name:'UC Face Off',   fill:'#e03a3e',dark:'#f4f6f8',alt:'#f4f6f8',altDark:'#e03a3e'},  // rood / wit
-  {name:'UFC Groningen', fill:'#17a673',dark:'#0a4a33',alt:'#f4f6f8',altDark:'#17a673'},  // groen
-  {name:'Messed Up',     fill:'#7b3fe4',dark:'#2c1166',alt:'#f4f6f8',altDark:'#7b3fe4'}]; // paars
+// Club colours: shirt, shorts, and a second kit for when both shirts look alike.
+const KITS={
+  'UFC Utrecht':  {fill:'#ec4f9b',dark:'#1b1f26',alt:'#f4f6f8',altDark:'#ec4f9b'},  // roze
+  'FB Agents':    {fill:'#1f2329',dark:'#1f2329',alt:'#f4f6f8',altDark:'#1f2329'},  // zwart
+  'Hot Flames':   {fill:'#ff7a2e',dark:'#7a2c08',alt:'#1b1f26',altDark:'#ff7a2e'},  // oranje
+  'Sonics':       {fill:'#d7263d',dark:'#1b1f26',alt:'#f4f6f8',altDark:'#d7263d'},  // rood / zwart
+  'UC Face Off':  {fill:'#e03a3e',dark:'#f4f6f8',alt:'#f4f6f8',altDark:'#e03a3e'},  // rood / wit
+  'UFC Groningen':{fill:'#17a673',dark:'#0a4a33',alt:'#f4f6f8',altDark:'#17a673'},  // groen
+  'Messed Up':    {fill:'#7b3fe4',dark:'#2c1166',alt:'#f4f6f8',altDark:'#7b3fe4'},  // paars
+  'Blue Falcons': {fill:'#2f7cf6',dark:'#0d2a66',alt:'#f4f6f8',altDark:'#2f7cf6'},  // blauw (aanname)
+  'Dames Noord':  {fill:'#19b5c4',dark:'#0b4a52',alt:'#f4f6f8',altDark:'#19b5c4'}}; // turquoise (aanname)
+// Eredivisie 2026-2027 according to NeFUB (heren: fase 1, dames: fase 2), plus UFC Groningen and Messed Up for the men.
+const LEAGUES={
+  H:['UFC Utrecht','FB Agents','Hot Flames','Sonics','UC Face Off','Blue Falcons','UFC Groningen','Messed Up'],
+  D:['UFC Utrecht','UFC Utrecht 2','FB Agents','Hot Flames','Sonics','Dames Noord']};
+const kitOf=n=>KITS[n.replace(/ \d$/,'')];
 const col3=h=>{ const n=parseInt(h.slice(1),16); return [n>>16&255,n>>8&255,n&255]; };
 const cdist=(a,b)=>{ const x=col3(a), y=col3(b); return hyp(x[0]-y[0],x[1]-y[1],x[2]-y[2]); };
 const lum=h=>{ const c=col3(h); return (0.2126*c[0]+0.7152*c[1]+0.0722*c[2])/255; };
-let teamSel=[0,2], teamHook=null;
-try{ const v=JSON.parse(localStorage.getItem('fbm-teams')); if(Array.isArray(v)&&CLUBS[v[0]]&&CLUBS[v[1]]&&v[0]!==v[1]) teamSel=v; }catch(e){}
+let pick={g:'H',H:[0,1],D:[0,4]}, teamHook=null;
+try{
+  const v=JSON.parse(localStorage.getItem('fbm-pick'));
+  if(v){ for(const g of ['H','D']){ const p=v[g]; if(Array.isArray(p)&&LEAGUES[g][p[0]]&&LEAGUES[g][p[1]]&&p[0]!==p[1]) pick[g]=p; }
+    if(v.g==='H'||v.g==='D') pick.g=v.g; }
+}catch(e){}
 function applyTeams(){
-  const H=CLUBS[teamSel[0]], A=CLUBS[teamSel[1]];
+  const lg=LEAGUES[pick.g], sel=pick[pick.g], hn=lg[sel[0]], an=lg[sel[1]], H=kitOf(hn), A=kitOf(an);
   let af=A.fill, ad=A.dark;
   if(cdist(H.fill,af)<120){ af=A.alt; ad=A.altDark; }
   if(cdist(H.fill,af)<120){ af=cdist(H.fill,'#f4f6f8')<120?'#1b1f26':'#f4f6f8'; ad=A.fill; }
-  const kits=[[H.fill,H.dark,H.name],[af,ad,A.name]];
+  const kits=[[H.fill,H.dark,hn],[af,ad,an]];
   for(let t=0;t<2;t++){
     const [fill,dark,name]=kits[t], other=kits[1-t][0];
     const gk=['#ffd23f','#2ad1c9','#2a313b','#c9d1db'].find(c=>cdist(c,fill)>130&&cdist(c,other)>130&&(t===0||c!==TEAMS[0].gk))||'#ffd23f';
@@ -313,22 +329,27 @@ function applyTeams(){
   }
   C.home=TEAMS[0].fill; C.away=TEAMS[1].fill; C['home-dark']=TEAMS[0].dark; C['away-dark']=TEAMS[1].dark;
   const rs=document.documentElement.style; rs.setProperty('--home',C.home); rs.setProperty('--away',C.away);
-  document.getElementById('nHome').textContent=H.name; document.getElementById('nAway').textContent=A.name;
-  document.getElementById('introTxt').textContent=`Jij speelt met ${H.name} tegen ${A.name}. Vijf veldspelers en een keeper per team; de keeper speelt vanzelf en jij bestuurt steeds de speler met de bal.`;
-  try{ localStorage.setItem('fbm-teams',JSON.stringify(teamSel)); }catch(e){}
+  document.getElementById('nHome').textContent=hn; document.getElementById('nAway').textContent=an;
+  document.getElementById('introTxt').textContent=`Jij speelt met ${hn} tegen ${an} in de ${pick.g==='H'?'heren':'dames'}competitie. Vijf veldspelers en een keeper per team; de keeper speelt vanzelf en jij bestuurt steeds de speler met de bal.`;
+  try{ localStorage.setItem('fbm-pick',JSON.stringify(pick)); }catch(e){}
   if(teamHook) teamHook();
 }
 (function(){
-  const sh=document.getElementById('selHome'), sa=document.getElementById('selAway');
-  for(const el of [sh,sa]) CLUBS.forEach((c,i)=>el.add(new Option(c.name,i)));
-  sh.value=teamSel[0]; sa.value=teamSel[1];
+  const sh=document.getElementById('selHome'), sa=document.getElementById('selAway'), gs=document.getElementById('segGender');
+  function fill(){
+    for(const el of [sh,sa]){ el.length=0; LEAGUES[pick.g].forEach((n,i)=>el.add(new Option(n,i))); }
+    sh.value=pick[pick.g][0]; sa.value=pick[pick.g][1];
+    gs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===pick.g?'true':'false'));
+  }
   const change=side=>{
     const v=[+sh.value,+sa.value];
     // the same club can't play itself: move the other picker on
-    if(v[0]===v[1]){ v[1-side]=(v[side]+1)%CLUBS.length; (side?sh:sa).value=v[1-side]; }
-    teamSel=v; applyTeams();
+    if(v[0]===v[1]){ v[1-side]=(v[side]+1)%LEAGUES[pick.g].length; (side?sh:sa).value=v[1-side]; }
+    pick[pick.g]=v; applyTeams();
   };
   sh.onchange=()=>change(0); sa.onchange=()=>change(1);
+  gs.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||b.dataset.g===pick.g) return; pick.g=b.dataset.g; fill(); applyTeams(); });
+  fill();
 })();
 applyTeams();
 const SLOTS=[{role:'GK',num:1},{role:'D',num:4},{role:'D',num:5},{role:'C',num:10},{role:'W',num:7},{role:'W',num:11}];
@@ -1206,12 +1227,12 @@ function ik(a,t,l1,l2,pole,out){
   _r.copy(pole).addScaledVector(_q,-pole.dot(_q)); if(_r.lengthSq()<1e-6) _r.set(0,1,0); _r.normalize();
   out.copy(a).addScaledVector(_q,l1*ca).addScaledVector(_r,l1*sa);
 }
-function chestGeo(sc){
+function chestGeo(sc,fem){
   const pts=[[0.13,-0.02],[0.165,0.06],[0.185,0.2],[0.205,0.34],[0.205,0.42],[0.17,0.5],[0.08,0.55],[0.05,0.56]].map(([r,y])=>new THREE.Vector2(r*sc,y*sc));
-  return new THREE.LatheGeometry(pts,14).scale(0.68,1,1);
+  return new THREE.LatheGeometry(pts,14).scale(0.68,1,fem?0.9:1);
 }
 function buildModel(team,slot){
-  const T=TEAMS[team], isGK=slot===0, num=SLOTS[slot].num, k=team*6+slot;
+  const T=TEAMS[team], isGK=slot===0, num=SLOTS[slot].num, k=team*6+slot, fem=pick.g==='D';
   const jerseyC=isGK?T.gk:T.fill;
   const jersey=mat(jerseyC,{roughness:0.62}), shortsM=mat(isGK?'#1b1f26':T.dark,{roughness:0.7}), sockM=mat(isGK?'#1b1f26':jerseyC,{roughness:0.75});
   const skin=mat(skinTones[(k*5+2)%skinTones.length],{roughness:0.6}), hair=mat(hairCols[(k*7+1)%hairCols.length],{roughness:0.9});
@@ -1221,7 +1242,7 @@ function buildModel(team,slot){
   // pelvis (shorts) and torso
   const pelvis=mesh(new THREE.CylinderGeometry(0.15*sc,0.16*sc,0.2,12).scale(0.8,1,1.05),shortsM); root.add(pelvis);
   const torso=new THREE.Group(); root.add(torso);
-  torso.add(mesh(chestGeo(sc),jersey));
+  torso.add(mesh(chestGeo(sc,fem),jersey));
   const tex=makeNumTex(num,isGK?T.gkInk:T.numInk), nm=new THREE.MeshBasicMaterial({map:tex,transparent:true});
   const depth=0.205*0.68*sc;
   const nb=new THREE.Mesh(new THREE.PlaneGeometry(0.26*sc,0.26*sc),nm); nb.position.set(-depth-0.006,0.3*sc,0); nb.rotation.y=-Math.PI/2; torso.add(nb);
@@ -1240,6 +1261,18 @@ function buildModel(team,slot){
     helm.position.y=headY+0.01; helm.rotation.y=Math.PI; torso.add(helm);
     const cage=new THREE.Mesh(new THREE.SphereGeometry(0.145,10,8,-Math.PI*0.45,Math.PI*0.9,Math.PI*0.22,Math.PI*0.58),new THREE.MeshBasicMaterial({color:0xdde3ea,wireframe:true}));
     cage.position.y=headY; cage.rotation.y=Math.PI; torso.add(cage);
+    if(fem){ const tail=mesh(new THREE.SphereGeometry(0.045,8,6).scale(1,1.9,1),hair); tail.position.set(-0.16,headY-0.08,0); torso.add(tail); }
+  } else if(fem){
+    // Long hair: ponytail, bun or braid, some with a headband.
+    const style=k%4;
+    const cap=mesh(new THREE.SphereGeometry(0.11,16,10,0,Math.PI*2,0,Math.PI*0.58),hair);
+    cap.position.set(-0.014,headY+0.01,0); cap.scale.set(1.02,1.1,1); torso.add(cap);
+    if(style===2){ const bun=mesh(new THREE.SphereGeometry(0.05,10,8),hair); bun.position.set(-0.1,headY+0.07,0); torso.add(bun); }
+    else {
+      const top=mesh(new THREE.SphereGeometry(0.038,8,6),hair); top.position.set(-0.115,headY+0.02,0); torso.add(top);
+      const tail=mesh(new THREE.SphereGeometry(0.04,8,6).scale(1,style===1?2.6:2.1,1),hair); tail.position.set(-0.135,headY-(style===1?0.1:0.07),0); torso.add(tail);
+    }
+    if(style===3||style===0){ const band=mesh(new THREE.TorusGeometry(0.104,0.011,6,20).rotateX(Math.PI/2),mat(style===3?T.dark:'#eef1f5')); band.position.y=headY+0.035; torso.add(band); }
   } else {
     const style=k%4;
     const cap=mesh(new THREE.SphereGeometry(0.108,16,10,0,Math.PI*2,0,Math.PI*(style===2?0.42:0.55)),hair);
@@ -1281,7 +1314,8 @@ function buildModel(team,slot){
   root.traverse(o=>{ if(o.isMesh) o.castShadow=!!o.material.isMeshStandardMaterial; });
   // Roughly a third of the players shoot left.
   const hand=(k*7)%3===0?-1:1;
-  return {root,pelvis,torso,legs,arms,shaft,grip,blade,isGK,s:hand,phase:rand()*6,lean:0.2,tw:0,hy:0.84,
+  const scale=fem?0.94:1; root.scale.setScalar(scale);
+  return {root,pelvis,torso,legs,arms,shaft,grip,blade,isGK,s:hand,k:scale,shW:fem?0.185:0.2,phase:rand()*6,lean:0.2,tw:0,hy:0.84,
           B:V(0.55,0.03,0.28*hand),Tp:V(),ballL:V(),ballW:V()};
 }
 const models=[[],[]];
@@ -1428,7 +1462,7 @@ function animatePlayer(p,dt){
     _h1.copy(m.Tp).addScaledVector(_c,-0.05);
     _h2.copy(m.Tp).addScaledVector(_c,-0.42);
     for(const A of m.arms){
-      torsoPt(m,0,0.47,A.sd*0.2,_sv.set(0,0,0)); const sh=_t.copy(_sv);
+      torsoPt(m,0,0.47,A.sd*m.shW,_sv.set(0,0,0)); const sh=_t.copy(_sv);
       const top=A.sd===-s;
       let hand=top?_h1:_h2;
       if(!top&&free){ const ph=m.phase; hand=_r.set(Math.sin(ph)*0.28,m.hy+0.05,A.sd*0.28); }
@@ -1437,7 +1471,7 @@ function animatePlayer(p,dt){
     }
   }
   // ball position in world space when this player carries it (drawn on the blade)
-  m.ballW.set(p.x+m.ballL.x*c-m.ballL.z*sn, m.ballL.y, p.y+m.ballL.x*sn+m.ballL.z*c);
+  m.ballW.set(p.x+(m.ballL.x*c-m.ballL.z*sn)*m.k, m.ballL.y*m.k, p.y+(m.ballL.x*sn+m.ballL.z*c)*m.k);
 }
 
 function render3D(dt){
