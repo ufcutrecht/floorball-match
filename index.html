@@ -126,6 +126,16 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 @media (max-width:440px){.teamsel{grid-template-columns:1fr;gap:4px}.teamsel .vs{text-align:center}}
 .home .swatch,.away .swatch{box-shadow:0 0 0 1px rgba(255,255,255,.25)}
 .tip.ios{color:var(--ink);background:var(--stand);border:1px solid var(--rule);border-radius:8px;padding:8px 10px}
+/* Online: play against someone on another phone */
+.online{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.onrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.onrow .secondary{padding:8px 12px}
+#joinCode{width:96px;font:600 18px var(--body);letter-spacing:.18em;text-transform:uppercase;text-align:center;color:var(--ink);background:var(--stand);border:1px solid var(--rule);border-radius:8px;padding:7px 6px}
+#joinCode:focus-visible{outline:2px solid var(--gk-home);outline-offset:1px}
+.code{font:700 40px var(--display);letter-spacing:.16em;color:var(--gk-home);line-height:1;padding-top:6px}
+.linkbtn{align-self:flex-start;font:500 13px var(--body);color:var(--muted);background:none;border:0;padding:2px 0;text-decoration:underline;cursor:pointer}
+.primary:disabled{opacity:.5;cursor:default;filter:none}
+body.touchmode #menu .card>#fMode{grid-column:1/-1}
 /* iPhone: no rubber-band scrolling, no zoom on double tap, no text loupe on a long press */
 html,body{overscroll-behavior:none}
 body.touchmode{position:fixed;inset:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-text-size-adjust:100%}
@@ -187,7 +197,23 @@ button{touch-action:manipulation}
       <div class="card">
         <div class="brand"><svg class="logo" role="img" aria-label="Floorball Match logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><mask id="h" maskUnits="userSpaceOnUse" x="-10" y="-25" width="55" height="45"><rect x="-10" y="-25" width="55" height="45" fill="#fff"/><circle cx="3.62" cy="0.76" r="1.5" fill="#000"/><circle cx="7.17" cy="1.13" r="1.5" fill="#000"/><path fill="#000" d="M10.61 2.21 L11.67 2.23 L12.72 2.21 L13.77 2.17 L14.81 2.09 L15.85 1.98 L16.15 4.36 L15.04 4.43 L13.92 4.48 L12.80 4.49 L11.68 4.46 L10.56 4.40 Z"/><path fill="#000" d="M10.66 -0.10 L11.65 -0.17 L12.63 -0.27 L13.60 -0.40 L14.56 -0.56 L15.51 -0.75 L15.80 1.51 L14.77 1.62 L13.74 1.70 L12.70 1.76 L11.66 1.78 L10.62 1.77 Z"/><path fill="#000" d="M17.24 1.79 L18.21 1.62 L19.17 1.43 L20.13 1.21 L21.09 0.96 L22.04 0.69 L22.82 3.20 L21.79 3.46 L20.76 3.69 L19.72 3.89 L18.68 4.06 L17.64 4.20 Z"/><path fill="#000" d="M16.77 -1.06 L17.64 -1.30 L18.50 -1.57 L19.35 -1.86 L20.20 -2.18 L21.04 -2.53 L21.89 0.18 L20.95 0.46 L20.01 0.71 L19.06 0.94 L18.11 1.14 L17.16 1.31 Z"/><path fill="#000" d="M16.36 -3.53 L17.14 -3.85 L17.91 -4.19 L18.67 -4.56 L19.42 -4.95 L20.16 -5.37 L20.84 -3.17 L20.02 -2.81 L19.20 -2.48 L18.37 -2.16 L17.52 -1.88 L16.67 -1.62 Z"/><path fill="#000" d="M23.40 0.24 L24.28 -0.07 L25.16 -0.41 L26.03 -0.77 L26.90 -1.16 L27.77 -1.57 L29.04 0.99 L28.09 1.40 L27.15 1.78 L26.20 2.14 L25.25 2.47 L24.30 2.78 Z"/><path fill="#000" d="M22.23 -3.07 L23.00 -3.44 L23.76 -3.84 L24.51 -4.26 L25.26 -4.70 L26.00 -5.16 L27.52 -2.08 L26.67 -1.67 L25.81 -1.28 L24.95 -0.92 L24.09 -0.58 L23.22 -0.26 Z"/><path fill="#000" d="M21.19 -6.00 L21.85 -6.44 L22.50 -6.90 L23.15 -7.37 L23.78 -7.87 L24.41 -8.38 L25.64 -5.89 L24.92 -5.42 L24.20 -4.97 L23.47 -4.53 L22.74 -4.12 L21.99 -3.73 Z"/><path fill="#000" d="M29.10 -2.24 L29.83 -2.64 L30.56 -3.05 L31.29 -3.48 L32.01 -3.92 L32.73 -4.38 L34.42 -1.84 L33.63 -1.37 L32.85 -0.92 L32.06 -0.49 L31.27 -0.08 L30.48 0.32 Z"/><path fill="#000" d="M27.13 -5.91 L27.75 -6.34 L28.36 -6.79 L28.98 -7.26 L29.58 -7.74 L30.19 -8.23 L32.40 -4.89 L31.69 -4.43 L30.97 -3.99 L30.26 -3.56 L29.55 -3.15 L28.83 -2.76 Z"/><path fill="#000" d="M25.35 -9.21 L25.87 -9.69 L26.38 -10.18 L26.88 -10.68 L27.38 -11.20 L27.87 -11.73 L29.66 -9.03 L29.08 -8.52 L28.50 -8.03 L27.91 -7.56 L27.32 -7.10 L26.73 -6.66 Z"/></mask><radialGradient id="bs" cx=".35" cy=".3" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#0e131a" stop-opacity=".28"/></radialGradient></defs><g transform="translate(120 0) scale(-1 1)"><g transform="translate(16 14) rotate(-38)"><rect x="-4.6" y="-4" width="9.2" height="5.5" rx="2.4" fill="#1b2129" stroke="#3a4554" stroke-width=".8"/><rect x="-3.9" y="0.5" width="7.8" height="30" rx="1.6" fill="#f2f4f7"/><path d="M-3.9 4.4 L3.9 1.6" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 7.7 L3.9 4.9" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 11.0 L3.9 8.2" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 14.3 L3.9 11.5" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 17.6 L3.9 14.8" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 20.9 L3.9 18.1" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 24.2 L3.9 21.4" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 27.5 L3.9 24.7" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 30.8 L3.9 28.0" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.4 30 L3.4 30 L3.1 88 L-3.1 88 Z" fill="#e0457b"/><path d="M-3.35 44 L3.35 44 L3.3 58 L-3.3 58 Z" fill="#8c1d45"/><path d="M-3.3 60.5 L3.3 60.5" stroke="#fff" stroke-width="1.1"/><path d="M-1.6 31 L-1.4 87" stroke="#fff" stroke-opacity=".35" stroke-width="1.1" stroke-linecap="round"/><path d="M-3.1 86 L3.1 86 L3.3 96.5 L-2.4 97.5 Z" fill="#2a313b"/><g transform="translate(0.5 96.5) rotate(36)"><path mask="url(#h)" d="M0.94 -3.06 L2.14 -2.78 L3.35 -2.58 L4.54 -2.44 L5.72 -2.37 L6.89 -2.35 L8.04 -2.39 L9.17 -2.48 L10.28 -2.62 L11.37 -2.81 L12.44 -3.05 L13.49 -3.33 L14.51 -3.66 L15.52 -4.03 L16.50 -4.44 L17.45 -4.89 L18.39 -5.38 L19.30 -5.91 L20.20 -6.48 L21.07 -7.09 L21.92 -7.73 L22.76 -8.40 L23.58 -9.12 L24.38 -9.86 L25.16 -10.64 L25.93 -11.46 L26.69 -12.31 L27.43 -13.20 L28.16 -14.12 A7.60 5.70 54.3 0 1 37.03 -1.78 L35.73 -0.96 L34.41 -0.19 L33.09 0.53 L31.77 1.21 L30.43 1.83 L29.09 2.41 L27.75 2.94 L26.39 3.43 L25.04 3.86 L23.68 4.24 L22.32 4.58 L20.95 4.86 L19.58 5.10 L18.21 5.29 L16.84 5.43 L15.47 5.51 L14.10 5.55 L12.73 5.54 L11.36 5.49 L9.99 5.38 L8.62 5.23 L7.26 5.03 L5.90 4.78 L4.54 4.49 L3.18 4.15 L1.82 3.77 L0.47 3.34 L-0.88 2.87 Q-3.83 -1.17 0.94 -3.06 Z" fill="#ffd23f"/></g></g></g><g transform="translate(16 14) rotate(-38)"><rect x="-4.6" y="-4" width="9.2" height="5.5" rx="2.4" fill="#1b2129" stroke="#3a4554" stroke-width=".8"/><rect x="-3.9" y="0.5" width="7.8" height="30" rx="1.6" fill="#f2f4f7"/><path d="M-3.9 4.4 L3.9 1.6" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 7.7 L3.9 4.9" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 11.0 L3.9 8.2" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 14.3 L3.9 11.5" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 17.6 L3.9 14.8" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 20.9 L3.9 18.1" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 24.2 L3.9 21.4" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 27.5 L3.9 24.7" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.9 30.8 L3.9 28.0" stroke="#b7c0cc" stroke-width="1"/><path d="M-3.4 30 L3.4 30 L3.1 88 L-3.1 88 Z" fill="#ff7a2e"/><path d="M-3.35 44 L3.35 44 L3.3 58 L-3.3 58 Z" fill="#b8470f"/><path d="M-3.3 60.5 L3.3 60.5" stroke="#fff" stroke-width="1.1"/><path d="M-1.6 31 L-1.4 87" stroke="#fff" stroke-opacity=".35" stroke-width="1.1" stroke-linecap="round"/><path d="M-3.1 86 L3.1 86 L3.3 96.5 L-2.4 97.5 Z" fill="#2a313b"/><g transform="translate(0.5 96.5) rotate(36)"><path mask="url(#h)" d="M0.94 -3.06 L2.14 -2.78 L3.35 -2.58 L4.54 -2.44 L5.72 -2.37 L6.89 -2.35 L8.04 -2.39 L9.17 -2.48 L10.28 -2.62 L11.37 -2.81 L12.44 -3.05 L13.49 -3.33 L14.51 -3.66 L15.52 -4.03 L16.50 -4.44 L17.45 -4.89 L18.39 -5.38 L19.30 -5.91 L20.20 -6.48 L21.07 -7.09 L21.92 -7.73 L22.76 -8.40 L23.58 -9.12 L24.38 -9.86 L25.16 -10.64 L25.93 -11.46 L26.69 -12.31 L27.43 -13.20 L28.16 -14.12 A7.60 5.70 54.3 0 1 37.03 -1.78 L35.73 -0.96 L34.41 -0.19 L33.09 0.53 L31.77 1.21 L30.43 1.83 L29.09 2.41 L27.75 2.94 L26.39 3.43 L25.04 3.86 L23.68 4.24 L22.32 4.58 L20.95 4.86 L19.58 5.10 L18.21 5.29 L16.84 5.43 L15.47 5.51 L14.10 5.55 L12.73 5.54 L11.36 5.49 L9.99 5.38 L8.62 5.23 L7.26 5.03 L5.90 4.78 L4.54 4.49 L3.18 4.15 L1.82 3.77 L0.47 3.34 L-0.88 2.87 Q-3.83 -1.17 0.94 -3.06 Z" fill="#f6f7f9"/></g></g><circle cx="60" cy="97" r="9.5" fill="#ffffff"/><circle cx="60" cy="97" r="9.5" fill="none" stroke="#c9d1db" stroke-width="1"/><circle cx="60" cy="97" r="1.62" fill="#9aa3ad"/><circle cx="64.70" cy="98.53" r="1.62" fill="#9aa3ad"/><circle cx="61.03" cy="101.83" r="1.62" fill="#9aa3ad"/><circle cx="56.33" cy="100.31" r="1.62" fill="#9aa3ad"/><circle cx="55.30" cy="95.47" r="1.62" fill="#9aa3ad"/><circle cx="58.97" cy="92.17" r="1.62" fill="#9aa3ad"/><circle cx="63.67" cy="93.69" r="1.62" fill="#9aa3ad"/><circle cx="60" cy="97" r="9.5" fill="url(#bs)"/></svg><h1>Floorball <span>Match</span></h1></div>
         <p id="introTxt">Vijf veldspelers en een keeper per team. De keeper speelt vanzelf; jij bestuurt steeds de speler met de bal.</p>
-        <div class="field"><div class="labelrow"><span class="label">Eredivisie</span>
+        <div class="field" id="fMode"><span class="label">Tegenstander</span>
+          <div class="seg" id="segMode">
+            <button type="button" data-v="0" aria-pressed="true">Computer</button>
+            <button type="button" data-v="1" aria-pressed="false">Andere speler</button>
+          </div>
+          <div class="online" id="online" hidden>
+            <div class="onrow" id="netPick">
+              <button class="secondary" id="hostBtn" type="button">Maak wedstrijd</button>
+              <span class="vs">of</span>
+              <input id="joinCode" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code van de wedstrijd">
+              <button class="secondary" id="joinBtn" type="button">Doe mee</button>
+            </div>
+            <div class="onrow" id="shareRow" hidden><span class="code" id="codeShow"></span><button class="secondary" id="shareBtn" type="button">Deel link</button></div>
+            <p class="tip" id="netStatus" aria-live="polite">Eén speler maakt de wedstrijd en deelt de code. De ander vult de code in.</p>
+            <button class="linkbtn" id="netLeave" type="button" hidden>Stoppen met verbinden</button>
+          </div></div>
+        <div class="field" id="fTeams"><div class="labelrow"><span class="label">Eredivisie</span>
           <div class="seg mini" id="segGender" role="group" aria-label="Competitie">
             <button type="button" data-g="H" aria-pressed="true">Heren</button>
             <button type="button" data-g="D" aria-pressed="false">Dames</button>
@@ -197,13 +223,13 @@ button{touch-action:manipulation}
             <span class="vs">tegen</span>
             <select id="selAway" aria-label="Team van de tegenstander"></select>
           </div></div>
-        <div class="field"><span class="label">Niveau tegenstander</span>
+        <div class="field" id="fDiff"><span class="label">Niveau tegenstander</span>
           <div class="seg" id="segDiff">
             <button type="button" data-v="0" aria-pressed="false">Makkelijk</button>
             <button type="button" data-v="1" aria-pressed="true">Normaal</button>
             <button type="button" data-v="2" aria-pressed="false">Moeilijk</button>
           </div></div>
-        <div class="field"><span class="label">Speeltijd</span>
+        <div class="field" id="fLen"><span class="label">Speeltijd</span>
           <div class="seg" id="segLen">
             <button type="button" data-v="120" aria-pressed="false">2 × 2 min</button>
             <button type="button" data-v="180" aria-pressed="true">2 × 3 min</button>
@@ -311,6 +337,7 @@ const col3=h=>{ const n=parseInt(h.slice(1),16); return [n>>16&255,n>>8&255,n&25
 const cdist=(a,b)=>{ const x=col3(a), y=col3(b); return hyp(x[0]-y[0],x[1]-y[1],x[2]-y[2]); };
 const lum=h=>{ const c=col3(h); return (0.2126*c[0]+0.7152*c[1]+0.0722*c[2])/255; };
 let pick={g:'H',H:[0,1],D:[0,4]}, teamHook=null;
+const NET={role:null,conn:null,peer:null,code:'',ev:[],snap:null,applied:null,prevSt:'menu'}; // online play, see the Online section
 try{
   const v=JSON.parse(localStorage.getItem('fbm-pick'));
   if(v){ for(const g of ['H','D']){ const p=v[g]; if(Array.isArray(p)&&LEAGUES[g][p[0]]&&LEAGUES[g][p[1]]&&p[0]!==p[1]) pick[g]=p; }
@@ -330,9 +357,10 @@ function applyTeams(){
   C.home=TEAMS[0].fill; C.away=TEAMS[1].fill; C['home-dark']=TEAMS[0].dark; C['away-dark']=TEAMS[1].dark;
   const rs=document.documentElement.style; rs.setProperty('--home',C.home); rs.setProperty('--away',C.away);
   document.getElementById('nHome').textContent=hn; document.getElementById('nAway').textContent=an;
-  document.getElementById('introTxt').textContent=`Jij speelt met ${hn} tegen ${an} in de ${pick.g==='H'?'heren':'dames'}competitie. Vijf veldspelers en een keeper per team; de keeper speelt vanzelf en jij bestuurt steeds de speler met de bal.`;
-  try{ localStorage.setItem('fbm-pick',JSON.stringify(pick)); }catch(e){}
+  document.getElementById('introTxt').textContent=`Jij speelt met ${NET.role==='guest'?an:hn} tegen ${NET.role==='guest'?hn:an} in de ${pick.g==='H'?'heren':'dames'}competitie. Vijf veldspelers en een keeper per team; de keeper speelt vanzelf en jij bestuurt steeds de speler met de bal.`;
+  if(NET.role!=='guest') try{ localStorage.setItem('fbm-pick',JSON.stringify(pick)); }catch(e){}
   if(teamHook) teamHook();
+  if(NET.role==='host') sendCfg();
 }
 (function(){
   const sh=document.getElementById('selHome'), sa=document.getElementById('selAway'), gs=document.getElementById('segGender');
@@ -361,7 +389,7 @@ const fxOf=(t,x)=>t===0?x:L-x;
 const wx=(t,fx)=>t===0?fx:L-fx;
 
 // ---------- State ----------
-const S={state:'menu',score:[0,0],shots:[0,0],half:1,clock:180,halfLen:180,diff:1,firstKick:0,timer:0,human:0,ctrl:null,charge:0,charging:false,lastPoss:-1,camX:20,camY:10,tac:[2,0],swCd:0,pressT:0,queueShot:false,goalTeam:-1};
+const S={state:'menu',mode:0,score:[0,0],shots:[0,0],half:1,clock:180,halfLen:180,diff:1,firstKick:0,timer:0,human:0,ctrl:null,charge:0,charging:false,lastPoss:-1,camX:20,camY:10,tac:[2,0],swCd:0,pressT:0,queueShot:false,goalTeam:-1};
 const ball={x:20,y:10,vx:0,vy:0,owner:null,touch:0,last:null,passTo:null,trail:[]};
 let players=[];
 
@@ -389,35 +417,36 @@ function placeKickoff(kt){
     p.x=wx(t,fx); p.y=y; p.vx=p.vy=0; p.dir=t===0?0:Math.PI; p.cd=0; p.tried=-1; p.lunge=0;
   }
   ball.x=20; ball.y=10; ball.z=0; ball.vz=0; ball.vx=ball.vy=0; ball.owner=null; ball.passTo=null; ball.trail.length=0;
-  S.ctrl=players.find(p=>p.team===S.human&&p.slot===3);
+  for(let t=0;t<2;t++){ const c=H[t]; c.p=c.on?players.find(p=>p.team===t&&p.slot===3):null; c.charge=0; c.charging=false; c.armed=false; c.queueShot=false; }
   S.lastPoss=kt;
   gain(players.find(p=>p.team===kt&&p.slot===3));
-  S.state='kickoff'; S.timer=1.3; S.charge=0; S.charging=false;
+  S.state='kickoff'; S.timer=1.3;
 }
 
 // ---------- Possession ----------
 function gain(p){
   const prev=ball.owner?ball.owner.team:S.lastPoss;
   ball.owner=p; ball.touch++; ball.last=p; ball.passTo=null; ball.shot=false; ball.cross=false; ball.oneTimer=false;
-  if(prev!==p.team&&p.team!==S.human) S.tac[p.team]=pickTac();
+  if(prev!==p.team&&!H[p.team].on) S.tac[p.team]=pickTac();
   p.hold=0; p.patience=1+rand()*2.2; p.think=0.12+rand()*0.2;
-  if(p.team===S.human&&!p.isGK) S.ctrl=p;
-  else if(p.team!==S.human&&prev===S.human) autoSwitch();
+  if(H[p.team].on&&!p.isGK) H[p.team].p=p;
+  if(prev!==p.team&&prev>=0&&H[prev].on) autoSwitch(prev);
   S.lastPoss=p.team;
 }
 function release(p,vx,vy){
   ball.owner=null; ball.vx=vx; ball.vy=vy; ball.touch++; ball.last=p; ball.passTo=null; ball.cross=false; ball.oneTimer=false; p.cd=0.3;
 }
-function autoSwitch(){
+function autoSwitch(t){
   let best=null,bd=1e9;
-  for(const m of field(S.human)){const d=hyp(m.x-ball.x,m.y-ball.y); if(d<bd){bd=d;best=m}}
-  if(best) S.ctrl=best;
+  for(const m of field(t)){const d=hyp(m.x-ball.x,m.y-ball.y); if(d<bd){bd=d;best=m}}
+  if(best) H[t].p=best;
 }
-function switchCtrl(){
+function switchCtrl(t){
+  const c=H[t];
   let best=null,bd=1e9;
   const px=ball.x+ball.vx*0.4, py=ball.y+ball.vy*0.4;
-  for(const m of field(S.human)){ if(m===S.ctrl) continue; const d=hyp(m.x-px,m.y-py); if(d<bd){bd=d;best=m} }
-  if(best){S.ctrl=best; sfx(520,.04,'sine',.05)}
+  for(const m of field(t)){ if(m===c.p) continue; const d=hyp(m.x-px,m.y-py); if(d<bd){bd=d;best=m} }
+  if(best){c.p=best; sfx(520,.04,'sine',.05)}
 }
 function segDist(o,a,b){
   const dx=b.x-a.x, dy=b.y-a.y, l2=dx*dx+dy*dy||1;
@@ -443,7 +472,7 @@ function pass(p,m){
   const dx=tx-ball.x, dy=ty-ball.y, d=hyp(dx,dy)||1, sp=clamp(7+d*0.75,9,19);
   release(p,dx/d*sp,dy/d*sp); ball.passTo=m;
   p.swing=0.18;
-  if(p.team===S.human) S.ctrl=m;
+  if(H[p.team].on) H[p.team].p=m;
   sfx(330,.05,'triangle',.08);
 }
 function shoot(p,power,aimY,noise){
@@ -496,7 +525,7 @@ function cross(p,m){
   const tx=clamp(m.x+m.vx*0.35,1,L-1), ty=clamp(m.y+m.vy*0.35,1,W-1);
   const dx=tx-ball.x, dy=ty-ball.y, d=hyp(dx,dy)||1, sp=clamp(11+d*0.6,13,20);
   release(p,dx/d*sp,dy/d*sp); ball.passTo=m; ball.cross=true; p.swing=0.22;
-  if(p.team===S.human){ S.ctrl=m; S.queueShot=false; }
+  if(H[p.team].on){ H[p.team].p=m; H[p.team].queueShot=false; }
   sfx(420,.06,'triangle',.08);
 }
 // Play the ball deep into the corner; the best-placed teammate (a winger if possible) sprints after it.
@@ -507,21 +536,22 @@ function dumpCorner(p,side){
   if(!m) return false;
   const dx=cx-ball.x, dy=cy-ball.y, d=hyp(dx,dy)||1, sp=clamp(7+d*0.55,11,18);
   release(p,dx/d*sp,dy/d*sp); ball.passTo=m; p.swing=0.2;
-  if(t===S.human) S.ctrl=m;
+  if(H[t].on) H[t].p=m;
   sfx(300,.06,'triangle',.08); return true;
 }
 // A cross that reaches a player in front of the goal can be hit first time.
 function afterCross(p){
   if(depthOf(p.team,p.x)>10) return;
   const gk=keeperOf(1-p.team), side=gk&&gk.y>10?-1:1;
-  if(p.team===S.human&&p===S.ctrl){
-    if(S.queueShot||act.shoot||act.held){
-      S.queueShot=false; act.shoot=false; act.held=false; S.armed=false; S.charging=false; S.charge=0;
+  const hc=H[p.team];
+  if(hc.on&&p===hc.p){
+    if(hc.queueShot||hc.act.shoot||hc.act.held){
+      hc.queueShot=false; hc.act.shoot=false; hc.act.held=false; hc.armed=false; hc.charging=false; hc.charge=0;
       shoot(p,0.85,side*0.45,0.05); ball.oneTimer=true; showBanner('','ONE-TIMER',C['gk-home']); setTimeout(()=>{ if(S.state==='play') hideBanner(); },700);
     }
     return;
   }
-  const cfg=p.team===S.human?MATE:DIFFS[S.diff];
+  const cfg=hc.on?MATE:DIFFS[S.diff];
   if(rand()<0.8){ shoot(p,0.7+rand()*0.3,side*(0.3+rand()*0.35),cfg.noise); ball.oneTimer=true; }
 }
 const incomingCross=p=>!ball.owner&&ball.cross&&ball.passTo===p;
@@ -613,7 +643,7 @@ function nearest(list,x,y){
   let b=null,bd=1e9; for(const p of list){const d=hyp(p.x-x,p.y-y); if(d<bd){bd=d;b=p}} return b;
 }
 function teamAI(t,dt){
-  const cfg=t===S.human?MATE:DIFFS[S.diff];
+  const hc=H[t], cfg=hc.on?MATE:DIFFS[S.diff];
   const o=ball.owner, fl=field(t);
   const px=ball.x+ball.vx*0.35, py=ball.y+ball.vy*0.35;
   let chaser=null, presser=null;
@@ -621,12 +651,12 @@ function teamAI(t,dt){
   else if(o.team!==t&&!o.isGK) presser=nearest(fl,o.x,o.y);
   // "Druk": one extra teammate hunts the ball together with you.
   let helper=null;
-  if(t===S.human&&S.pressT>0&&!(o&&o.team===t)){
-    const pool=fl.filter(m=>m!==S.ctrl&&m!==presser&&m!==chaser);
+  if(hc.on&&hc.pressT>0&&!(o&&o.team===t)){
+    const pool=fl.filter(m=>m!==hc.p&&m!==presser&&m!==chaser);
     helper=o?nearest(pool,o.x,o.y):nearest(pool,px,py);
   }
   for(const p of mates(t)){
-    if(t===S.human&&p===S.ctrl) continue;
+    if(hc.on&&p===hc.p) continue;
     if(p===o){aiCarrier(p,dt,cfg);continue}
     if(p.isGK){gkAI(p,dt,cfg);continue}
     if(p===chaser){
@@ -700,18 +730,25 @@ function gkAI(p,dt,cfg){
 }
 
 // ---------- Input ----------
-const keys=new Set();
-const act={tap:false,held:false,up:false,sw:false,shoot:false,shootPress:false,pass:false,tac:false};
+// One controller per team: who it steers, its buttons and its shot charge.
+// Online the guest's controller (team 1) is filled from the network on the host.
+function newCtl(on){
+  return {on,p:null,act:{tap:false,held:false,up:false,sw:false,shoot:false,shootPress:false,pass:false,tac:false},
+    keys:new Set(),joy:{x:0,y:0},fwd:{x:0,y:-1},swCd:0,armed:false,spaceT:0,charging:false,charge:0,queueShot:false,pressT:0};
+}
+const H=[newCtl(true),newCtl(false)];
+let LOC=H[0]; // where this device's keyboard and touch input goes
 const TAP=0.2;
-const joy={x:0,y:0};
 let touchMode=false;
 const coarse=matchMedia('(pointer: coarse)').matches;
 const MAP={ArrowUp:'u',KeyW:'u',ArrowDown:'d',KeyS:'d',ArrowLeft:'l',KeyA:'l',ArrowRight:'r',KeyD:'r'};
 addEventListener('keydown',e=>{
+  if(e.target&&e.target.tagName==='INPUT') return; // typing the match code
   const playing=S.state==='play'||S.state==='kickoff';
   if(e.code==='KeyC'&&!e.repeat){ toggleCam(); }
   if(e.code==='KeyP'||e.code==='Escape'){ if(playing) pause(); else if(S.state==='paused') resume(); return; }
   if(!playing) return;
+  const keys=LOC.keys, act=LOC.act;
   if(MAP[e.code]) keys.add(MAP[e.code]);
   if(e.code==='ShiftLeft'||e.code==='ShiftRight') keys.add('sprint');
   if((e.code==='Space'||e.code==='KeyJ')&&!e.repeat){act.tap=true; act.held=true;}
@@ -721,39 +758,39 @@ addEventListener('keydown',e=>{
   if(MAP[e.code]||e.code==='Space') e.preventDefault();
 });
 addEventListener('keyup',e=>{
+  const keys=LOC.keys, act=LOC.act;
   if(MAP[e.code]) keys.delete(MAP[e.code]);
   if(e.code==='ShiftLeft'||e.code==='ShiftRight') keys.delete('sprint');
   if(e.code==='KeyK') act.shoot=false;
   if(e.code==='Space'||e.code==='KeyJ'){ if(act.held) act.up=true; act.held=false; }
 });
-addEventListener('blur',()=>{keys.clear(); act.shoot=false; if(act.held) act.up=true; act.held=false;});
-// Screen-relative input: "up" on the stick/keys is always away from the camera, whatever camera is active.
-const camFwd={x:0,y:-1};
-function inputVec(){
-  let sx=(keys.has('r')?1:0)-(keys.has('l')?1:0), sy=(keys.has('d')?1:0)-(keys.has('u')?1:0);
-  sx+=joy.x; sy+=joy.y;
+addEventListener('blur',()=>{ const act=LOC.act; LOC.keys.clear(); act.shoot=false; if(act.held) act.up=true; act.held=false; });
+// Screen-relative input: "up" on the stick/keys is always away from that player's camera, whatever camera is active.
+function inputVec(c){
+  let sx=(c.keys.has('r')?1:0)-(c.keys.has('l')?1:0), sy=(c.keys.has('d')?1:0)-(c.keys.has('u')?1:0);
+  sx+=c.joy.x; sy+=c.joy.y;
   const m=hyp(sx,sy); if(m>1){sx/=m;sy/=m}
-  const fx=camFwd.x, fy=camFwd.y, rx=-fy, ry=fx;
+  const fx=c.fwd.x, fy=c.fwd.y, rx=-fy, ry=fx;
   const x=sx*rx-sy*fx, y=sx*ry-sy*fy;
   return {x,y,m:Math.min(1,m)};
 }
 
 // ---------- Human ----------
-const joyMag=()=>hyp(joy.x,joy.y);
+const joyMag=c=>hyp(c.joy.x,c.joy.y);
 function tacMode(p){ if(!p||ball.owner!==p) return 'druk'; return crossZone(p)?'voorzet':'hoek'; }
-function humanUpdate(dt){
-  const p=S.ctrl; if(!p) return;
+function humanUpdate(t,dt){
+  const c=H[t], act=c.act, p=c.p; if(!p) return;
   const has=ball.owner===p;
-  S.swCd=Math.max(0,S.swCd-dt);
+  c.swCd=Math.max(0,c.swCd-dt);
   // Defending: control jumps to whoever is clearly closest to the ball, so Wissel is rarely needed.
-  const ourPass=!ball.owner&&ball.passTo&&ball.passTo.team===S.human;
-  if(!has&&!ourPass&&S.swCd<=0&&(!ball.owner||ball.owner.team!==S.human)){
+  const ourPass=!ball.owner&&ball.passTo&&ball.passTo.team===t;
+  if(!has&&!ourPass&&c.swCd<=0&&(!ball.owner||ball.owner.team!==t)){
     const px=ball.x+ball.vx*0.3, py=ball.y+ball.vy*0.3;
-    const best=nearest(field(S.human),px,py);
-    if(best&&best!==p&&hyp(p.x-px,p.y-py)-hyp(best.x-px,best.y-py)>2.5){ S.ctrl=best; S.swCd=0.8; return; }
+    const best=nearest(field(t),px,py);
+    if(best&&best!==p&&hyp(p.x-px,p.y-py)-hyp(best.x-px,best.y-py)>2.5){ c.p=best; c.swCd=0.8; return; }
   }
-  const iv=inputVec();
-  const sprint=keys.has('sprint')||joyMag()>0.9;
+  const iv=inputVec(c);
+  const sprint=c.keys.has('sprint')||joyMag(c)>0.9;
   if(p.lunge>0) p.lunge-=dt;
   else if(!ball.owner&&ball.passTo===p&&iv.m<0.3){
     // A pass is on its way to you: run onto it automatically until you steer yourself.
@@ -778,44 +815,44 @@ function humanUpdate(dt){
     const b=iv.m>0.2?bestPass(p,iv.x/iv.m,iv.y/iv.m):bestPass(p,Math.cos(p.dir),Math.sin(p.dir));
     if(b.m) pass(p,b.m);
   };
-  const noBallPress=()=>{ if(incomingCross(p)) S.queueShot=true; else lunge(p); };
+  const noBallPress=()=>{ if(incomingCross(p)) c.queueShot=true; else lunge(p); };
   // Keyboard space: tap = pass, hold = charge a shot, without the ball = tackle.
   if(act.tap){
     act.tap=false;
-    if(has){ S.armed=true; S.spaceT=0; } else { S.armed=false; noBallPress(); }
+    if(has){ c.armed=true; c.spaceT=0; } else { c.armed=false; noBallPress(); }
   }
-  if(has&&S.armed){
+  if(has&&c.armed){
     if(act.held){
-      S.spaceT+=dt;
-      if(S.spaceT>TAP){ S.charging=true; S.charge=Math.min(1,(S.spaceT-TAP)/0.75); }
+      c.spaceT+=dt;
+      if(c.spaceT>TAP){ c.charging=true; c.charge=Math.min(1,(c.spaceT-TAP)/0.75); }
     }
     if(act.up){
-      if(S.spaceT<=TAP) doPass(); else fire(Math.max(0.3,S.charge));
-      S.armed=false; S.charging=false; S.charge=0;
+      if(c.spaceT<=TAP) doPass(); else fire(Math.max(0.3,c.charge));
+      c.armed=false; c.charging=false; c.charge=0;
     }
   }
   // Touch Pass: passes the moment you press it. Without the ball it switches player.
   if(act.pass){
     act.pass=false;
-    if(has) doPass(); else if(incomingCross(p)) S.queueShot=true; else { switchCtrl(); S.swCd=1.5; }
+    if(has) doPass(); else if(incomingCross(p)) c.queueShot=true; else { switchCtrl(t); c.swCd=1.5; }
   }
   // Schiet: tap = quick shot, hold = harder. Without the ball it is a tackle.
   if(act.shootPress){ act.shootPress=false; if(!has) noBallPress(); }
-  if(has&&!S.armed){
-    if(act.shoot){ S.charging=true; S.charge=Math.min(1,S.charge+dt/0.7); }
-    else if(S.charging){ fire(Math.max(0.5,S.charge)); S.charging=false; S.charge=0; }
-  } else if(!has){ S.armed=false; S.charging=false; S.charge=0; }
+  if(has&&!c.armed){
+    if(act.shoot){ c.charging=true; c.charge=Math.min(1,c.charge+dt/0.7); }
+    else if(c.charging){ fire(Math.max(0.5,c.charge)); c.charging=false; c.charge=0; }
+  } else if(!has){ c.armed=false; c.charging=false; c.charge=0; }
   act.up=false;
   // Tactic button: Hoek / Voorzet with the ball, Druk without it.
   if(act.tac){
     act.tac=false;
     const m=tacMode(p);
-    if(m==='druk'){ S.pressT=2.5; sfx(560,.05,'sine',.05); }
-    else if(m==='voorzet'){ const c=crossTarget(p); if(c) cross(p,c.m); else doPass(); }
+    if(m==='druk'){ c.pressT=2.5; sfx(560,.05,'sine',.05); }
+    else if(m==='voorzet'){ const ct=crossTarget(p); if(ct) cross(p,ct.m); else doPass(); }
     else dumpCorner(p,iv.m>0.2&&Math.abs(iv.y)>0.3?Math.sign(iv.y):(p.y<10?-1:1));
-    S.armed=false; S.charging=false; S.charge=0;
+    c.armed=false; c.charging=false; c.charge=0;
   }
-  if(act.sw){ act.sw=false; if(!has){ switchCtrl(); S.swCd=1.5; } }
+  if(act.sw){ act.sw=false; if(!has){ switchCtrl(t); c.swCd=1.5; } }
 }
 function lunge(p){
   if(p.lunge>0) return;
@@ -889,7 +926,7 @@ function updateBall(dt){
     const s=stickPt(p);
     const d=Math.min(hyp(ball.x-s.x,ball.y-s.y),hyp(ball.x-p.x,ball.y-p.y)+0.1);
     // A hard cross is difficult to cut out: defenders need to be almost exactly in the line.
-    const rad=ball.cross&&ball.last&&p.team!==ball.last.team?0.3:p===S.ctrl?0.72:0.55;
+    const rad=ball.cross&&ball.last&&p.team!==ball.last.team?0.3:(H[p.team].on&&p===H[p.team].p)?0.72:0.55;
     if(d<rad&&d<bd){bd=d;best=p}
   }
   if(best){
@@ -901,7 +938,7 @@ function updateBall(dt){
 }
 function keeperSave(p){
   const rel=hyp(ball.vx,ball.vy); p.tried=ball.touch;
-  const adj=p.team===S.human?0:DIFFS[S.diff].save;
+  const adj=H[p.team].on?0:DIFFS[S.diff].save;
   const pr=rel<9?1:clamp(1.18-rel/34+adj-(ball.oneTimer?0.22:0),0.12,0.96);
   if(rand()<pr){
     if(rel>20&&rand()<0.5){
@@ -924,43 +961,68 @@ function scored(team){
   horn();
 }
 function showBanner(big,small,color){
+  netEv(['b',big,small,color]);
   const b=document.getElementById('banner');
   document.getElementById('bannerBig').textContent=big;
   document.getElementById('bannerSmall').textContent=small;
   b.style.color=color; b.hidden=false; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
 }
-const hideBanner=()=>document.getElementById('banner').hidden=true;
+function hideBanner(){ netEv(['hb']); document.getElementById('banner').hidden=true; }
 
 function startMatch(){
+  // Online only the host starts, and only once player 2 is connected.
+  const vs=S.mode===1&&NET.role==='host'&&online();
+  if(S.mode===1&&!vs) return;
+  H[0].on=true; H[1].on=vs; S.human=0; LOC=H[0];
+  if(vs){ NET.ev.length=0; netSend({t:'start',pick,len:S.halfLen}); }
   makeTeams();
   S.score=[0,0]; S.shots=[0,0]; S.half=1; S.clock=S.halfLen; S.firstKick=0;
   document.getElementById('menu').hidden=true;
   placeKickoff(S.firstKick);
   showBanner('AFTRAP','1e helft',C.ink);
 }
-function endHalf(){
-  const ov=document.getElementById('breakOv');
-  const last=S.half===2;
-  document.getElementById('breakTitle').textContent=last?(S.score[0]>S.score[1]?'Gewonnen!':S.score[0]<S.score[1]?'Verloren':'Gelijkspel'):'Rust';
+function showBreak(last){
+  const me=S.human, guest=NET.role==='guest';
+  document.getElementById('breakTitle').textContent=last?(S.score[me]>S.score[1-me]?'Gewonnen!':S.score[me]<S.score[1-me]?'Verloren':'Gelijkspel'):'Rust';
   document.getElementById('breakScore').textContent=S.score[0]+' : '+S.score[1];
   document.getElementById('breakStats').innerHTML=
     `<span>${TEAMS[0].name}</span><span>team</span><span>${TEAMS[1].name}</span>`+
     `<span>${S.shots[0]}</span><span>schoten</span><span>${S.shots[1]}</span>`;
-  document.getElementById('breakBtn').textContent=last?'Nieuwe wedstrijd':'Tweede helft';
-  ov.hidden=false; S.state=last?'end':'half'; hideBanner();
-  horn();
+  document.getElementById('breakBtn').textContent=last?(guest?'Terug naar het menu':'Nieuwe wedstrijd'):'Tweede helft';
+  document.getElementById('breakOv').hidden=false; hideBanner();
 }
-document.getElementById('breakBtn').onclick=()=>{
+function endHalf(){
+  const last=S.half===2;
+  S.state=last?'end':'half'; showBreak(last);
+  horn(); netEv(['brk',last?1:0]);
+}
+function breakGo(){
   document.getElementById('breakOv').hidden=true;
-  if(S.state==='end'){ document.getElementById('menu').hidden=false; S.state='menu'; return; }
+  if(S.state==='end'){ netEv(['go',1]); backToMenu(); return; }
+  netEv(['go',0]);
   S.half=2; S.clock=S.halfLen; placeKickoff(1-S.firstKick);
   showBanner('AFTRAP','2e helft',C.ink);
+}
+document.getElementById('breakBtn').onclick=()=>{
+  if(NET.role==='guest'&&online()){
+    if(S.state==='end'){ backToMenu(); return; }
+    netSend({t:'go'}); document.getElementById('breakBtn').textContent='Wachten op speler 1…'; return;
+  }
+  breakGo();
 };
-function pause(){ if(S.state!=='play'&&S.state!=='kickoff') return; S.prev=S.state; S.state='paused'; document.getElementById('pauseOv').hidden=false; }
-function resume(){ if(S.state!=='paused') return; S.state=S.prev; document.getElementById('pauseOv').hidden=true; last=performance.now(); }
+// Online, the host decides: the guest's pause, resume and stop are sent to the host, which tells both phones.
+function pause(){
+  if(NET.role==='guest'&&online()){ if(S.state==='play'||S.state==='kickoff') netSend({t:'pause'}); return; }
+  if(S.state!=='play'&&S.state!=='kickoff') return; S.prev=S.state; S.state='paused'; document.getElementById('pauseOv').hidden=false; netEv(['pause']);
+}
+function resume(){
+  if(NET.role==='guest'&&online()){ netSend({t:'resume'}); return; }
+  if(S.state!=='paused') return; S.state=S.prev; document.getElementById('pauseOv').hidden=true; last=performance.now(); netEv(['resume']);
+}
+function quitMatch(){ netEv(['quit']); backToMenu(); }
 document.getElementById('pauseBtn').onclick=()=>S.state==='paused'?resume():pause();
 document.getElementById('resumeBtn').onclick=resume;
-document.getElementById('quitBtn').onclick=()=>{ document.getElementById('pauseOv').hidden=true; document.getElementById('menu').hidden=false; S.state='menu'; hideBanner(); };
+document.getElementById('quitBtn').onclick=()=>{ if(NET.role==='guest'&&online()){ netSend({t:'quit'}); return; } quitMatch(); };
 document.addEventListener('visibilitychange',()=>{ if(document.hidden) pause(); });
 
 function segment(id,cb){
@@ -969,14 +1031,252 @@ function segment(id,cb){
     el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false')); cb(+b.dataset.v); });
 }
 segment('segDiff',v=>S.diff=v);
-segment('segLen',v=>S.halfLen=v);
+segment('segLen',v=>{ S.halfLen=v; sendCfg(); });
 function setTac(v){
-  S.tac[0]=v;
+  const t=NET.role==='guest'?1:0;
+  S.tac[t]=v; if(t===1) netSend({t:'tac',v});
   ['segTac','segTacP'].forEach(id=>document.getElementById(id).querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===v?'true':'false')));
   document.getElementById('tacInfo').textContent=TAC_INFO[v];
 }
 segment('segTac',setTac); segment('segTacP',setTac); setTac(S.tac[0]);
 document.getElementById('startBtn').onclick=()=>{ initAudio(); startMatch(); };
+
+// ---------- Online: two phones over WebRTC (PeerJS) ----------
+// The phone that makes the match (host) runs the whole game and controls team 1 (home).
+// The other phone (guest) controls team 2: it sends its stick and buttons 30× per second
+// and draws the positions the host sends back. PeerJS only helps the phones find each other;
+// after that the data goes straight from phone to phone.
+const PEER_JS='https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js';
+const ID_PREFIX='ufcutrecht-fbm-';
+const elNet=document.getElementById('netStatus'), elCode=document.getElementById('codeShow'), elShare=document.getElementById('shareRow');
+const elJoin=document.getElementById('joinCode'), elStart=document.getElementById('startBtn');
+let peerLib=null, netT=0;
+const rnd=v=>Math.round(v*1000)/1000;
+function loadPeer(){
+  if(!peerLib) peerLib=new Promise((ok,fail)=>{
+    const s=document.createElement('script'); s.src=PEER_JS;
+    s.onload=()=>window.Peer?ok(window.Peer):fail(new Error('peer'));
+    s.onerror=()=>{ peerLib=null; s.remove(); fail(new Error('load')); };
+    document.head.appendChild(s);
+  });
+  return peerLib;
+}
+const online=()=>!!(NET.conn&&NET.conn.open);
+function netSend(m){ if(online()) try{ NET.conn.send(m); }catch(e){} }
+function netEv(e){ if(NET.role==='host'&&online()) NET.ev.push(e); }
+function setStatus(t){ elNet.textContent=t; }
+function netErr(e){
+  const t=e&&e.type;
+  if(t==='network'||t==='server-error'||t==='socket-error'||t==='socket-closed') return 'Geen verbinding met de koppelserver. Controleer je internet en probeer het opnieuw.';
+  if(t==='browser-incompatible') return 'Deze browser ondersteunt geen spelen tegen elkaar (WebRTC).';
+  return 'Verbinden is niet gelukt. Probeer het opnieuw.';
+}
+function newCode(){ const A='ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<4;i++) s+=A[Math.floor(rand()*A.length)]; return s; }
+function shareUrl(){ return location.origin+location.pathname+'?join='+NET.code; }
+
+// Menu: what is shown depends on the mode and on being host or guest.
+function updateMenu(){
+  const on=S.mode===1, guest=NET.role==='guest', conn=online();
+  document.getElementById('online').hidden=!on;
+  document.getElementById('fDiff').hidden=on;
+  for(const id of ['fTeams','fLen']) document.getElementById(id).hidden=guest&&conn;
+  document.getElementById('netPick').hidden=conn||(NET.role==='host'&&!!NET.code);
+  elShare.hidden=!(NET.role==='host'&&NET.code&&!conn);
+  elStart.hidden=on&&guest;
+  elStart.disabled=on&&!(NET.role==='host'&&conn);
+  elStart.textContent=on&&NET.role==='host'&&!conn?'Wacht op speler 2':'Aftrap';
+  document.getElementById('netLeave').hidden=!(on&&NET.role);
+}
+function netReset(){
+  const c=NET.conn, p=NET.peer;
+  NET.conn=null; NET.peer=null; NET.role=null; NET.code=''; NET.ev.length=0; NET.snap=null;
+  try{ c&&c.close(); }catch(e){} try{ p&&p.destroy(); }catch(e){}
+  H[1].on=false; S.human=0; LOC=H[0];
+  updateMenu();
+}
+function attach(conn){
+  conn.on('open',()=>{ NET.conn=conn; onConnected(); });
+  conn.on('data',onNet);
+  conn.on('close',()=>{ if(NET.conn===conn) onNetClosed(); });
+  conn.on('error',()=>{});
+}
+async function hostGame(){
+  netReset(); initAudio(); setStatus('Wedstrijd maken…');
+  let Peer; try{ Peer=await loadPeer(); }catch(e){ setStatus('Kan het onderdeel voor spelen tegen elkaar niet laden. Controleer je internet.'); return; }
+  const code=newCode(), peer=new Peer(ID_PREFIX+code, {debug:0});
+  NET.peer=peer; NET.role='host';
+  peer.on('open',()=>{ if(NET.peer!==peer) return; NET.code=code; elCode.textContent=code; setStatus('Geef deze code aan speler 2, of deel de link. Wachten…'); updateMenu(); });
+  peer.on('connection',conn=>{
+    if(NET.peer!==peer) return;
+    if(online()){ conn.on('open',()=>{ try{ conn.send({t:'full'}); }catch(e){} setTimeout(()=>conn.close(),500); }); return; }
+    attach(conn);
+  });
+  peer.on('error',e=>{ if(NET.peer!==peer) return; if(e.type==='unavailable-id'){ hostGame(); return; } if(!online()) setStatus(netErr(e)); });
+  // Losing the matchmaking server does not matter once the phones are connected.
+  peer.on('disconnected',()=>{ if(NET.peer===peer&&!online()) try{ peer.reconnect(); }catch(e){} });
+  updateMenu();
+}
+async function joinGame(raw){
+  const code=String(raw||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(code.length!==4){ setStatus('Vul de code van 4 tekens in.'); elJoin.focus(); return; }
+  netReset(); initAudio(); setStatus('Verbinden met '+code+'…');
+  let Peer; try{ Peer=await loadPeer(); }catch(e){ setStatus('Kan het onderdeel voor spelen tegen elkaar niet laden. Controleer je internet.'); return; }
+  const peer=new Peer({debug:0});
+  NET.peer=peer; NET.role='guest'; NET.code=code; updateMenu();
+  peer.on('open',()=>{
+    if(NET.peer!==peer) return;
+    attach(peer.connect(ID_PREFIX+code,{serialization:'json',reliable:true}));
+    setTimeout(()=>{ if(NET.peer===peer&&!online()) setStatus('Geen verbinding gekregen. Staan beide telefoons op internet? Op verschillende netwerken lukt het soms niet; probeer dan hetzelfde wifi.'); },12000);
+  });
+  peer.on('error',e=>{ if(NET.peer!==peer) return; setStatus(e.type==='peer-unavailable'?'Geen wedstrijd gevonden met code '+code+'. Klopt de code?':netErr(e)); });
+}
+function onConnected(){
+  if(NET.role==='host'){
+    setStatus('Speler 2 is verbonden. Kies de teams en druk op Aftrap.');
+    sendCfg();
+  } else {
+    S.human=1; LOC=H[1];
+    setStatus('Verbonden! Speler 1 kiest de teams en start de wedstrijd.');
+    netSend({t:'tac',v:S.tac[1]});
+  }
+  sfx(660,.08,'sine',.06);
+  updateMenu();
+}
+function backToMenu(){
+  for(const id of ['pauseOv','breakOv']) document.getElementById(id).hidden=true;
+  document.getElementById('menu').hidden=false; S.state='menu'; hideBanner();
+}
+function onNetClosed(){
+  const wasGuest=NET.role==='guest', playing=S.state!=='menu';
+  netReset();
+  if(playing||wasGuest) backToMenu();
+  setStatus('De verbinding met de andere speler is verbroken.');
+}
+function sendCfg(){ if(NET.role==='host') netSend({t:'cfg',pick,len:S.halfLen}); }
+function applyCfg(m){
+  if(m.pick&&LEAGUES[m.pick.g]) pick=m.pick;
+  if(m.len) S.halfLen=m.len;
+  applyTeams();
+}
+function onNet(m){
+  if(!m||typeof m!=='object') return;
+  if(NET.role==='host'){
+    if(m.t==='in'){
+      const c=H[1]; if(!c.on) return;
+      const e=m.e||0;
+      if(e&1) c.act.tap=true; if(e&2) c.act.up=true; if(e&4) c.act.shootPress=true;
+      if(e&8) c.act.pass=true; if(e&16) c.act.tac=true; if(e&32) c.act.sw=true;
+      c.act.held=!!m.h; c.act.shoot=!!m.s;
+      c.joy.x=clamp(+m.x||0,-1,1); c.joy.y=clamp(+m.y||0,-1,1);
+      const f=hyp(+m.fx||0,+m.fy||0); if(f>0.01){ c.fwd.x=m.fx/f; c.fwd.y=m.fy/f; }
+      c.keys.clear(); for(const k of String(m.k||'')) if('udlr'.includes(k)) c.keys.add(k);
+      if(m.sp) c.keys.add('sprint');
+    }
+    else if(m.t==='tac'){ const v=+m.v; if(v>=0&&v<=2) S.tac[1]=v; }
+    else if(m.t==='pause') pause();
+    else if(m.t==='resume') resume();
+    else if(m.t==='quit') quitMatch();
+    else if(m.t==='go'){ if(S.state==='half') breakGo(); }
+  } else {
+    if(m.t==='s') NET.snap=m;
+    else if(m.t==='cfg') applyCfg(m);
+    else if(m.t==='start') guestStart(m);
+    else if(m.t==='full'){ netReset(); setStatus('Deze wedstrijd heeft al twee spelers.'); }
+  }
+}
+// Guest: the host's world arrives here; positions glide towards it so 30 updates a second look smooth.
+function guestStart(m){
+  applyCfg(m);
+  makeTeams(); S.human=1; H[0].on=H[1].on=true; LOC=H[1];
+  for(const c of H){ c.p=null; c.charging=false; c.charge=0; }
+  S.state='kickoff'; S.score=[0,0]; S.shots=[0,0]; S.half=1; S.clock=S.halfLen;
+  for(const id of ['menu','pauseOv','breakOv']) document.getElementById(id).hidden=true;
+  showBanner('AFTRAP','1e helft',C.ink);
+}
+function guestTick(dt){
+  const m=NET.snap; if(!m||!players.length) return;
+  const k=Math.min(1,dt*18);
+  if(m.P&&m.P.length===players.length){
+    m.P.forEach((q,i)=>{
+      const p=players[i];
+      if(m.fresh||hyp(q[0]-p.x,q[1]-p.y)>3){ p.x=q[0]; p.y=q[1]; p.dir=q[2]; }
+      else { p.x+=(q[0]-p.x)*k; p.y+=(q[1]-p.y)*k; let d=q[2]-p.dir; while(d>Math.PI)d-=2*Math.PI; while(d<-Math.PI)d+=2*Math.PI; p.dir+=d*k; }
+      p.vx=q[3]; p.vy=q[4]; p.swing=q[5]; p.lunge=q[6];
+    });
+  }
+  const b=m.b;
+  if(b){
+    ball.owner=b[5]>=0?players[b[5]]:null; ball.passTo=b[6]>=0?players[b[6]]:null; ball.cross=!!b[7];
+    if(m.fresh||hyp(b[0]-ball.x,b[1]-ball.y)>4){ ball.x=b[0]; ball.y=b[1]; }
+    else { ball.x+=(b[0]-ball.x)*k; ball.y+=(b[1]-ball.y)*k; }
+    ball.z=b[2]; ball.vx=b[3]; ball.vy=b[4];
+  }
+  m.fresh=false;
+}
+function applySnap(m){
+  if(m.st) S.state=m.st;
+  if(m.sc) S.score=m.sc; if(m.sh) S.shots=m.sh;
+  if(typeof m.cl==='number') S.clock=m.cl; if(m.h) S.half=m.h;
+  S.goalTeam=m.gt; S.tac[0]=m.tc?m.tc[0]:S.tac[0];
+  if(m.c) m.c.forEach((q,t)=>{ const c=H[t]; c.p=q[0]>=0?players[q[0]]:null; c.charging=!!q[1]; c.charge=q[2]; });
+  for(const e of m.ev||[]){
+    switch(e[0]){
+      case 'b': showBanner(e[1],e[2],e[3]); break;
+      case 'hb': hideBanner(); break;
+      case 's': sfx(e[1],e[2],e[3],e[4]); break;
+      case 'brk': showBreak(!!e[1]); break;
+      case 'go': document.getElementById('breakOv').hidden=true; if(e[1]) backToMenu(); break;
+      case 'pause': document.getElementById('pauseOv').hidden=false; break;
+      case 'resume': document.getElementById('pauseOv').hidden=true; break;
+      case 'quit': backToMenu(); break;
+    }
+  }
+}
+function netTick(dt){
+  if(!online()) return;
+  netT+=dt; if(netT<1/30) return; netT=0;
+  if(NET.role==='host'){
+    if(!players.length) return;
+    netSend({t:'s',st:S.state,sc:S.score,sh:S.shots,cl:rnd(S.clock),h:S.half,gt:S.goalTeam,tc:S.tac,
+      P:players.map(p=>[rnd(p.x),rnd(p.y),rnd(p.dir),rnd(p.vx),rnd(p.vy),rnd(p.swing),rnd(p.lunge)]),
+      b:[rnd(ball.x),rnd(ball.y),rnd(ball.z||0),rnd(ball.vx),rnd(ball.vy),ball.owner?players.indexOf(ball.owner):-1,ball.passTo?players.indexOf(ball.passTo):-1,ball.cross?1:0],
+      c:H.map(c=>[c.p?players.indexOf(c.p):-1,c.charging?1:0,rnd(c.charge)]),
+      ev:NET.ev.splice(0)});
+  } else {
+    const c=LOC, a=c.act;
+    const e=(a.tap?1:0)|(a.up?2:0)|(a.shootPress?4:0)|(a.pass?8:0)|(a.tac?16:0)|(a.sw?32:0);
+    a.tap=a.up=a.shootPress=a.pass=a.tac=a.sw=false;
+    let k=''; for(const d of 'udlr') if(c.keys.has(d)) k+=d;
+    netSend({t:'in',e,h:a.held?1:0,s:a.shoot?1:0,x:rnd(c.joy.x),y:rnd(c.joy.y),k,sp:c.keys.has('sprint')?1:0,fx:rnd(c.fwd.x),fy:rnd(c.fwd.y)});
+  }
+}
+// The snapshot is applied once per frame (events must fire once), positions glide every frame.
+function guestFrame(dt){
+  const m=NET.snap;
+  if(m&&m!==NET.applied){ NET.applied=m; if(NET.prevSt==='menu'&&m.st!=='menu') m.fresh=true; NET.prevSt=m.st; applySnap(m); }
+  guestTick(dt);
+}
+
+segment('segMode',v=>{ if(v===S.mode) return; S.mode=v; if(v===0){ netReset(); setStatus('Eén speler maakt de wedstrijd en deelt de code. De ander vult de code in.'); } updateMenu(); });
+document.getElementById('hostBtn').onclick=hostGame;
+document.getElementById('joinBtn').onclick=()=>joinGame(elJoin.value);
+elJoin.addEventListener('keydown',e=>{ if(e.key==='Enter') joinGame(elJoin.value); });
+elJoin.addEventListener('input',()=>{ elJoin.value=elJoin.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,4); });
+document.getElementById('netLeave').onclick=()=>{ netReset(); setStatus('Eén speler maakt de wedstrijd en deelt de code. De ander vult de code in.'); };
+document.getElementById('shareBtn').onclick=()=>{
+  const url=shareUrl();
+  if(navigator.share) navigator.share({title:'Floorball Match',text:'Speel Floorball Match tegen mij! Code: '+NET.code,url}).catch(()=>{});
+  else if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>setStatus('Link gekopieerd. Stuur hem naar speler 2. Wachten…'),()=>setStatus(url));
+  else setStatus(url);
+};
+// Opened through a shared link: join straight away.
+(function(){
+  const jc=new URLSearchParams(location.search).get('join');
+  if(!jc) return;
+  const b=document.querySelector('#segMode button[data-v="1"]'); if(b) b.click();
+  elJoin.value=jc.toUpperCase().slice(0,4); joinGame(jc);
+})();
+updateMenu();
 
 // ---------- Sound ----------
 let ac=null;
@@ -987,6 +1287,7 @@ function initAudio(){ try{
   if(ac.state!=='running') ac.resume();
 }catch(e){} }
 function sfx(f,d,type,vol){
+  netEv(['s',f,d,type,vol]);
   if(!ac) return;
   try{ const o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime;
     o.type=type; o.frequency.setValueAtTime(f,t); g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0001,t+d);
@@ -1005,10 +1306,10 @@ function update(dt){
   }
   if(S.state!=='play') return;
 
-  S.clock-=dt; S.pressT=Math.max(0,S.pressT-dt);
+  S.clock-=dt; for(const c of H) c.pressT=Math.max(0,c.pressT-dt);
   if(S.clock<=0){S.clock=0; endHalf(); return}
 
-  humanUpdate(dt);
+  for(let t=0;t<2;t++) if(H[t].on) humanUpdate(t,dt);
   teamAI(0,dt); teamAI(1,dt);
 
   for(const p of players){
@@ -1030,10 +1331,10 @@ function update(dt){
     if(d<m&&d>0){ const k=(m-d)/2/d; a.x-=dx*k; a.y-=dy*k; b.x+=dx*k; b.y+=dy*k; }
   }
   for(const p of players){
-    const human=p===S.ctrl, has=ball.owner===p;
+    const hc=H[p.team], human=hc.on&&p===hc.p, has=ball.owner===p;
     let a;
     if(p.isGK&&has) a=attackDir(p.team)===1?0:Math.PI;
-    else if(has){ const iv=human?inputVec():null;
+    else if(has){ const iv=human?inputVec(hc):null;
       if(iv&&iv.m>0.15) a=Math.atan2(iv.y,iv.x);
       else if(hyp(p.vx,p.vy)>0.6) a=Math.atan2(p.vy,p.vx); else a=p.dir; }
     else a=Math.atan2(ball.y-p.y,ball.x-p.x);
@@ -1410,12 +1711,12 @@ function animatePlayer(p,dt){
     }
     m.ballL.set(0.36,m.hy+0.12,0);
   } else {
-    const has=ball.owner===p, me=p===S.ctrl, s=m.s;
+    const hc=H[p.team], has=ball.owner===p, me=hc.on&&p===hc.p, s=m.s;
     // body: athletic crouch, leaning into the run
-    const leanT=celebrate?0.02:0.16+0.28*run+(p.lunge>0?0.35:0)+(me&&S.charging?0.1:0);
+    const leanT=celebrate?0.02:0.16+0.28*run+(p.lunge>0?0.35:0)+(me&&hc.charging?0.1:0);
     let twT=has?Math.sin(clock*5+m.phase)*0.06:0;
     let swingU=-1;
-    if(me&&S.charging&&has) twT=s*0.55*S.charge;
+    if(me&&hc.charging&&has) twT=s*0.55*hc.charge;
     else if(p.swing>0){ const dur=p.swing>0.2?0.3:0.22; swingU=1-p.swing/dur; twT=lerpT(s*0.5,-s*0.45,swingU); }
     m.lean=lerpT(m.lean,leanT,k); m.tw=lerpT(m.tw,twT,Math.min(1,dt*18));
     const bob=Math.abs(Math.sin(m.phase))*0.035*run;
@@ -1436,7 +1737,7 @@ function animatePlayer(p,dt){
     const B=_b, gait=Math.sin(m.phase);
     let free=false; // sprinting without the ball: carry the stick in the top hand, swing the other arm
     if(celebrate) B.set(0.25,2.25,s*0.2);
-    else if(me&&S.charging&&has){ const ch=S.charge; B.set(-0.1-0.25*ch,0.12+0.55*ch,s*(0.45+0.15*ch)); }
+    else if(me&&hc.charging&&has){ const ch=hc.charge; B.set(-0.1-0.25*ch,0.12+0.55*ch,s*(0.45+0.15*ch)); }
     else if(swingU>=0){
       if(swingU<0.4) B.lerpVectors(_a.set(-0.25,0.45,s*0.55),_c.set(0.5,0.03,s*0.05),swingU/0.4);
       else B.lerpVectors(_a.set(0.5,0.03,s*0.05),_c.set(0.75,0.7,-s*0.35),(swingU-0.4)/0.6);
@@ -1444,7 +1745,7 @@ function animatePlayer(p,dt){
     else if(p.lunge>0) B.set(0.95,0.03,s*0.08);
     else if(has) B.set(0.5,0.03,-0.1+Math.sin(clock*6+m.phase)*0.11);
     else { free=run>0.6; B.set(0.52+0.05*gait*run,0.03+(free?0.08:0),s*(0.26+0.04*gait*run)); }
-    m.B.lerp(B,Math.min(1,dt*(swingU>=0||(me&&S.charging)?40:16)));
+    m.B.lerp(B,Math.min(1,dt*(swingU>=0||(me&&hc.charging)?40:16)));
     m.B.y=Math.max(0.03,m.B.y);
     // shaft: fixed length, pointing from the blade back up to the hands in front of the hips
     torsoPt(m,0.22,0.24,-s*0.05,_a);
@@ -1489,7 +1790,7 @@ function render3D(dt){
   if(bs>0.05){ const ax=V(ball.vy,0,-ball.vx).normalize(); ballMesh.rotateOnWorldAxis(ax,bs*dt/BALL3*0.5); }
 
   // markers
-  const p=S.ctrl, show=p&&S.state!=='menu';
+  const p=H[S.human].p, show=p&&S.state!=='menu';
   ringMesh.visible=cone.visible=!!show;
   if(show){
     ringMesh.position.set(p.x,0.015,p.y);
@@ -1546,18 +1847,19 @@ function render3D(dt){
   camPos.lerp(pos,k); camLook.lerp(look,k);
   if(Math.abs(camera.fov-fov)>0.01){ camera.fov+= (fov-camera.fov)*Math.min(1,dt*6); if(Math.abs(camera.fov-fov)<0.05) camera.fov=fov; camera.updateProjectionMatrix(); }
   camera.position.copy(camPos); camera.lookAt(camLook);
-  { const fx=camLook.x-camPos.x, fy=camLook.z-camPos.z, fl=hyp(fx,fy); if(fl>0.01){ camFwd.x=fx/fl; camFwd.y=fy/fl; } }
+  { const fx=camLook.x-camPos.x, fy=camLook.z-camPos.z, fl=hyp(fx,fy); if(fl>0.01){ LOC.fwd.x=fx/fl; LOC.fwd.y=fy/fl; } }
 
   animateFans(clock);
   renderer.render(scene,camera);
 
   // shot power bar
-  if(show&&S.charging){
+  const hl=H[S.human];
+  if(show&&hl.charging){
     const v=V(p.x,2.6,p.y).project(camera);
     powerEl.hidden=false;
     powerEl.style.left=((v.x+1)/2*vw)+'px'; powerEl.style.top=((1-v.y)/2*vh)+'px';
-    powerFill.style.width=(S.charge*100)+'%';
-    powerEl.classList.toggle('max',S.charge>0.85);
+    powerFill.style.width=(hl.charge*100)+'%';
+    powerEl.classList.toggle('max',hl.charge>0.85);
   } else powerEl.hidden=true;
 }
 
@@ -1583,7 +1885,7 @@ let lastLbl='';
 // Buttons change with the situation: with the ball, without it, and while a cross is coming to you.
 function touchLabels(){
   if(!touchMode) return;
-  const p=S.ctrl, has=!!(p&&ball.owner===p), inc=!!(p&&incomingCross(p)), tm=tacMode(p);
+  const p=H[S.human].p, has=!!(p&&ball.owner===p), inc=!!(p&&incomingCross(p)), tm=tacMode(p);
   const key=has+'|'+inc+'|'+tm;
   if(key===lastLbl) return; lastLbl=key;
   tShootEl.textContent=has||inc?'Schiet':'Tackle'; tShootEl.classList.toggle('tackle',!has&&!inc); tShootEl.classList.toggle('hot',inc);
@@ -1614,17 +1916,17 @@ addEventListener('touchstart',()=>{ if(document.getElementById('touch').hidden) 
     knob.style.transform=`translate(${dx}px,${dy}px)`;
     // dead zone: a resting thumb should not make the player drift
     const m=Math.min(1,d/R), dz=0.15;
-    if(m<dz){joy.x=joy.y=0} else { const s=(m-dz)/(1-dz)/m; joy.x=dx/R*s; joy.y=dy/R*s; } });
-  const end=e=>{ if(e.pointerId!==id) return; id=null; joy.x=joy.y=0; knob.style.transform=''; };
+    if(m<dz){LOC.joy.x=LOC.joy.y=0} else { const s=(m-dz)/(1-dz)/m; LOC.joy.x=dx/R*s; LOC.joy.y=dy/R*s; } });
+  const end=e=>{ if(e.pointerId!==id) return; id=null; LOC.joy.x=LOC.joy.y=0; knob.style.transform=''; };
   zone.addEventListener('pointerup',end); zone.addEventListener('pointercancel',end);
   const hold=(el,down,up)=>{
     el.addEventListener('pointerdown',e=>{e.preventDefault(); try{el.setPointerCapture(e.pointerId)}catch(_){} el.classList.add('on'); initAudio(); down();});
     const u=()=>{el.classList.remove('on'); up&&up()};
     el.addEventListener('pointerup',u); el.addEventListener('pointercancel',u);
   };
-  hold(tPassEl,()=>act.pass=true);
-  hold(tShootEl,()=>{act.shoot=true;act.shootPress=true},()=>act.shoot=false);
-  hold(tTacEl,()=>act.tac=true);
+  hold(tPassEl,()=>LOC.act.pass=true);
+  hold(tShootEl,()=>{LOC.act.shoot=true;LOC.act.shootPress=true},()=>LOC.act.shoot=false);
+  hold(tTacEl,()=>LOC.act.tac=true);
 })();
 
 // If a phone can't keep up (under ~40 fps during play), render at a lower resolution once.
@@ -1642,8 +1944,8 @@ function frame(now){
   // Simulate in small steps so a phone that renders slower than 30 fps still plays at real speed.
   const dt=Math.min(0.1,Math.max(0,(now-last)/1000)); last=now;
   const n=Math.max(1,Math.ceil(dt/(1/60)));
-  for(let i=0;i<n;i++) update(dt/n);
-  render3D(dt); hud(); touchLabels(); perfCheck(dt);
+  if(NET.role==='guest'&&online()) guestFrame(dt); else for(let i=0;i<n;i++) update(dt/n);
+  render3D(dt); hud(); touchLabels(); perfCheck(dt); netTick(dt);
   requestAnimationFrame(frame);
 }
 makeTeams(); placeKickoff(0); S.state='menu';
